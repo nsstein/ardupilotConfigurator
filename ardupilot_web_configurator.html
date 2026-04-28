@@ -14,7 +14,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ArduPilot Web Configurator v0.1.55.5</title>
+<title>ArduPilot Web Configurator v0.1.55.6</title>
 <style>
   :root {
 	--bg: #262c38;
@@ -1521,6 +1521,51 @@
 
 
 /* =============================
+   OSD CONFIGURATION WIZARD
+   ============================= */
+.osdwiz-wrap{display:flex;flex-direction:column;gap:0;}
+.osdwiz-scroll{padding:16px 24px 32px;overflow-y:auto;flex:1;}
+.osdwiz-scroll::-webkit-scrollbar{width:6px;}
+.osdwiz-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+.osdwiz-intro{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:14px 16px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start;}
+.osdwiz-intro .ico{font-size:22px;flex-shrink:0;margin-top:2px;}
+.osdwiz-intro h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.osdwiz-intro p{font-size:12px;color:var(--text2);line-height:1.6;}
+
+.osdwiz-section{margin-bottom:20px;}
+.osdwiz-section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.osdwiz-section-hdr .badge-num{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.osdwiz-section-hdr .title{font-size:12px;font-weight:700;color:var(--text);letter-spacing:0.3px;}
+.osdwiz-section-hdr .line{flex:1;height:1px;background:var(--border);}
+
+.osdwiz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.osdwiz-field{display:flex;flex-direction:column;gap:4px;}
+.osdwiz-field label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;}
+.osdwiz-field .sub{font-size:10px;color:var(--text3);margin-top:1px;line-height:1.4;}
+.osdwiz-field select,.osdwiz-field input{background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);padding:7px 10px;color:var(--text);font-size:12px;font-family:var(--sans);outline:none;width:100%;transition:border-color 0.15s;}
+.osdwiz-field select:focus,.osdwiz-field input:focus{border-color:var(--accent);}
+.osdwiz-field select.changed,.osdwiz-field input.changed{border-color:var(--accent);color:var(--accent2);background:var(--accent-dim2);}
+
+.osdwiz-screen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;}
+.osdwiz-screen-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:12px 14px;display:flex;flex-direction:column;gap:8px;transition:border-color 0.15s;}
+.osdwiz-screen-card.enabled{border-color:rgba(59,130,246,0.45);background:rgba(59,130,246,0.06);}
+.osdwiz-screen-card .sc-head{display:flex;align-items:center;gap:10px;}
+.osdwiz-screen-card .sc-name{font-size:12px;font-weight:700;color:var(--text);flex:1;}
+.osdwiz-screen-card .sc-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;}
+.osdwiz-screen-card .sc-toggle input{accent-color:var(--accent);width:14px;height:14px;cursor:pointer;}
+.osdwiz-screen-card .sc-toggle span{font-size:11px;color:var(--text2);}
+.osdwiz-screen-card .sc-badge{font-size:10px;font-family:var(--font);padding:2px 8px;border-radius:999px;border:1px solid var(--border);background:var(--bg4);color:var(--text3);align-self:flex-start;}
+.osdwiz-screen-card.enabled .sc-badge{border-color:rgba(59,130,246,0.35);background:rgba(59,130,246,0.12);color:var(--accent2);}
+
+.osdwiz-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:14px 24px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0;}
+.osdwiz-actions .spacer{flex:1;}
+
+.osdwiz-changed-count{font-size:11px;font-family:var(--font);color:var(--accent2);background:var(--accent-dim2);border:1px solid rgba(59,130,246,0.25);padding:3px 10px;border-radius:999px;}
+.osdwiz-note{padding:10px 12px;border-radius:var(--radius2);border:1px solid rgba(59,130,246,0.25);background:rgba(59,130,246,0.07);color:var(--text2);font-size:12px;line-height:1.6;margin-bottom:14px;}
+.osdwiz-success{padding:10px 12px;border-radius:var(--radius2);border:1px solid rgba(52,211,153,0.3);background:rgba(52,211,153,0.07);color:var(--text2);font-size:12px;line-height:1.6;margin-bottom:14px;}
+
+/* =============================
    CONFIGURATION OVERVIEW PAGE
    ============================= */
 
@@ -1682,7 +1727,7 @@
 <div class="topbar" id="topbar">
   <div class="logo">
     <a href="javascript:safeReload();"><div class="logo-icon">✈</div></a>
-    ArduPilot Web Configurator v0.1.55.5
+    ArduPilot Web Configurator v0.1.55.6
   </div>
   <div class="topbar-spacer"></div>
   <div id="statusPill" class="status-pill empty">
@@ -2455,7 +2500,7 @@ const CATEGORIES = [
   { id: 'failsafe', icon: '⚠', label: 'Failsafes', prefixes: ['FS', 'THR_FAILSAFE', 'FENCE'] },
   { id: 'serial', icon: '🔌', label: 'Serial / Comms', prefixes: ['SERIAL', 'SR0', 'SR1', 'SR2', 'SR3', 'SR4', 'GCS'] },
   { id: 'logging', icon: '📝', label: 'Logging & Stats', prefixes: ['LOG', 'STAT', 'SCHED'] },
-  { id: 'osd', icon: '📺', label: 'OSD', prefixes: ['OSD'] },
+  { id: 'osd', icon: '📺', label: 'OSD Displays', prefixes: ['OSD'] },
   { id: 'board', icon: '💾', label: 'Board & System', prefixes: ['BRD', 'SYSID', 'FORMAT', 'NTF'] },
   
 ];
@@ -5784,7 +5829,7 @@ let agentState = {
   vtolType: 'tilt_tri',            // 'tilt_tri' | 'slt_4p1' | 'tailsitter'
   stepIndex: 0,
   afterReconnectStep: null,
-
+  afterReconnectOSD: false,
 
 // Airframe Mapping Wizard
 airframeVehicle: 'plane', // 'plane' | 'copter'
@@ -5799,7 +5844,8 @@ const AGENTS = [
   { id: 'levelhorizon', icon: '🟦', title: 'Level Horizon Wizard', subtitle: 'Calibrate FC level attitude' },
   { id: 'accelcal', icon: '🧭', title: 'Accelerometer Calibration', subtitle: '6‑orientation accel calibration' },
     { id: 'magcal', icon: '🧭', title: 'Compass Calibration Wizard', subtitle: 'Mag (compass) calibration' },
-{ id: 'rccal', icon: '📡', title: 'Radio Calibration Wizard', subtitle: 'RC calibration' }
+{ id: 'rccal', icon: '📡', title: 'Radio Calibration Wizard', subtitle: 'RC calibration' },
+{ id: 'osdconfig', icon: '📺', title: 'OSD Configuration Wizard', subtitle: 'Base OSD Settings' }
 ];
 
 const VTOL_TYPES = [
@@ -5852,6 +5898,18 @@ function agentAutoAdvanceAfterReconnect(){
     try { if (activeCat !== 'agents') setActiveCategory('agents'); } catch(_) {}
     try { renderAgents(document.getElementById('contentArea')); } catch(_) {}
     showToast('✓ Reconnected — continuing VTOL wizard', true);
+  }
+  if (agentState && agentState.afterReconnectOSD) {
+    agentState.afterReconnectOSD = false;
+    agentState.osdconfig = agentState.osdconfig || {};
+    agentState.osdconfig.rebooted = true;
+    try { if (activeCat !== 'agents') setActiveCategory('agents'); } catch(_) {}
+    try { renderAgents(document.getElementById('contentArea')); } catch(_) {}
+    showToast('✓ FC rebooted — OSD parameters applied. Now configure OSD Displays.', true);
+    // After a short delay, navigate to OSD Displays category
+    setTimeout(() => {
+      try { setActiveCategory('osd'); } catch(_) {}
+    }, 2800);
   }
 }
 
@@ -5915,7 +5973,10 @@ function renderAgents(area){
         </div>
         <div style="display:flex;gap:8px;margin-top:8px;">
           <button class="btn primary" style="flex:1;justify-content:center" onclick="openAgent('${a.id}')">Start</button>
-          <button class="btn" onclick="setActiveCategory('vtol')">VTOL Params →</button>
+          ${a.id === 'vtol' ? `<button class="btn" onclick="setActiveCategory('vtol')">VTOL Params →</button>` : ''}
+          ${a.id === 'osdconfig' ? `<button class="btn" onclick="setActiveCategory('osd')">OSD Displays →</button>` : ''}
+          ${a.id === 'rccal' ? `<button class="btn" onclick="setActiveCategory('rc')">RC & Input →</button>` : ''}
+          ${a.id === 'airframe' ? `<button class="btn" onclick="setActiveCategory('servos')">Servos & Outputs →</button>` : ''}
         </div>
       </div>
     `).join('');
@@ -5947,9 +6008,13 @@ function renderAgents(area){
     renderRcCalWizard(area);
     return;
   }
+  if (agentState.selected === 'osdconfig') {
+    renderOsdConfigWizard(area);
+    return;
+  }
 }
 
-function openAgent(id){ try { stopLevelHorizonMonitor(); } catch(_) {} try { rcCalStopMonitoring(); } catch(_) {} try { magCalStopMonitoring(); } catch(_) {} agentState.selected = id; if (id==='vtol') agentState.stepIndex = 0; if (id==='levelhorizon') agentState.levelHorizon = { stepIndex: 0, completed: false, lastAck: null, toleranceDeg: 5.0, monitorTimer: null }; if (id==='accelcal') agentState.accel = { active:false, completed:false, stepIndex:0, done:{}, lastSendTs:0 }; if (id==='magcal') agentState.magcal = { active:false, started:false, completed:false, accepted:false, mask:0, retry:1, delay:0, lastProgress:null, lastReport:null, lastProgressTs:0, lastReportTs:0, lastAck:null, acceptAck:null, cancelAck:null }; if (id==='rccal') agentState.rccal = { stepIndex:0, active:false, captureExtremes:false, captureTrim:false, mins:{}, maxs:{}, trims:{}, reversed:{} }; renderAgents(document.getElementById('contentArea')); }
+function openAgent(id){ try { stopLevelHorizonMonitor(); } catch(_) {} try { rcCalStopMonitoring(); } catch(_) {} try { magCalStopMonitoring(); } catch(_) {} agentState.selected = id; if (id==='vtol') agentState.stepIndex = 0; if (id==='levelhorizon') agentState.levelHorizon = { stepIndex: 0, completed: false, lastAck: null, toleranceDeg: 5.0, monitorTimer: null }; if (id==='accelcal') agentState.accel = { active:false, completed:false, stepIndex:0, done:{}, lastSendTs:0 }; if (id==='magcal') agentState.magcal = { active:false, started:false, completed:false, accepted:false, mask:0, retry:1, delay:0, lastProgress:null, lastReport:null, lastProgressTs:0, lastReportTs:0, lastAck:null, acceptAck:null, cancelAck:null }; if (id==='rccal') agentState.rccal = { stepIndex:0, active:false, captureExtremes:false, captureTrim:false, mins:{}, maxs:{}, trims:{}, reversed:{} }; if (id==='osdconfig') agentState.osdconfig = { applied:false, rebooted:false }; renderAgents(document.getElementById('contentArea')); }
 function closeAgent(){ try { stopLevelHorizonMonitor(); } catch(_) {} try { rcCalStopMonitoring(); } catch(_) {} try { magCalStopMonitoring(); } catch(_) {} agentState.selected = null; renderAgents(document.getElementById('contentArea')); }
 
 
@@ -8447,7 +8512,7 @@ function renderOSDEditor(area) {
             <option value="3">HD+ (60 × 22) — Extended HD</option>
           </select>
           <span style="flex:1"></span>
-          <div class="hint">Cell Size</div>
+          <div class="hint">Canvas Size</div>
           <input id="osdCell" type="number" min="12" max="28" style="width:76px" value="${osdState.cell}" title="Cell size (px)" />
           <div class="osd-trash" id="osdTrash" title="Drop here to disable (set _EN=0)">🗑 Drop to disable</div>
         </div>
@@ -10180,6 +10245,276 @@ function renderCompassCalWizard(area){
 }
 
 // ============================================================
+// OSD CONFIGURATION WIZARD
+// ============================================================
+
+// Definitions for all OSD wizard params (label, key, options)
+const OSD_WIZARD_PARAMS = {
+  hardware: [
+    { key:'OSD_TYPE',      label:'OSD Hardware Type',        sub:'Select the OSD hardware connected to your FC',
+      opts:{ 0:'Disabled', 1:'MAX7456 (analog OSD)', 2:'SITL', 3:'MSP OSD', 4:'TXONLY', 5:'MSP DisplayPort' } },
+    { key:'OSD_TYPE2',     label:'OSD Type 2 (secondary)',   sub:'Secondary OSD hardware type (if any)',
+      opts:{ 0:'None', 1:'MAX7456', 2:'SITL', 3:'MSP', 4:'TXONLY', 5:'MSP DisplayPort' } },
+    { key:'OSD_CHAN',      label:'OSD RC Channel',           sub:'RC channel used to switch OSD screens (0=disable)',
+      range:[0,16] },
+    { key:'OSD_SW_METHOD', label:'Screen Switch Method',     sub:'How OSD screens are switched via RC channel',
+      opts:{ 0:'Threshold bands', 1:'Toggle on low', 2:'Toggle on change' } },
+    { key:'OSD_FONT',      label:'OSD Font',                 sub:'Font number to use on MAX7456-type OSD',
+      range:[0,31] },
+  ],
+  display: [
+    { key:'OSD_UNITS',    label:'Units System',             sub:'Units displayed on OSD',
+      opts:{ 0:'Metric', 1:'Imperial', 2:'SI', 3:'Aviation' } },
+    { key:'OSD_V_OFFSET', label:'Vertical Offset (px)',     sub:'Vertical offset of OSD overlay in pixels', range:[0,31] },
+    { key:'OSD_H_OFFSET', label:'Horizontal Offset (px)',   sub:'Horizontal offset of OSD overlay in pixels', range:[0,63] },
+    { key:'OSD_OPTIONS',  label:'OSD Options (bitmask)',    sub:'Bitmask of OSD options (1=Use DECIMAL_PACK, 2=Inverted wind speed, 4=Inverted horizon)', range:null },
+    { key:'OSD_MSG_TIME', label:'Message Display Time (s)', sub:'How long important messages are shown', range:[1,60] },
+  ],
+  screens: [
+    { key:'OSD_ARM_SCR',   label:'Armed Screen',     sub:'Screen number shown on arming (0=no change)', range:[0,6] },
+    { key:'OSD_DSARM_SCR', label:'Disarmed Screen',  sub:'Screen number shown on disarming (0=no change)', range:[0,6] },
+    { key:'OSD_FS_SCR',    label:'Failsafe Screen',  sub:'Screen number shown during failsafe (0=no change)', range:[0,6] },
+    { key:'OSD_BTN_DELAY', label:'Button Delay (ms)',sub:'Debounce delay for OSD button input in milliseconds', range:[0,3000] },
+  ],
+  warnings: [
+    { key:'OSD_W_RSSI',     label:'RSSI Warning Threshold (%)',   sub:'Warn when RSSI drops below this value', range:[0,100] },
+    { key:'OSD_W_NSAT',     label:'GPS Sats Warning',             sub:'Warn when satellite count falls below this value', range:[0,30] },
+    { key:'OSD_W_BATVOLT',  label:'Battery Voltage Warning (V)',  sub:'Warn when battery voltage drops below this value', range:[0,30] },
+    { key:'OSD_W_TERR',     label:'Terrain Warning (m)',          sub:'Warn when terrain clearance falls below this (−1 = disable)', range:[-1,3000] },
+    { key:'OSD_W_AVGCELLV', label:'Avg Cell Voltage Warning (V)', sub:'Warn when average cell voltage drops below this value', range:[0,5] },
+    { key:'OSD_W_RESTVOLT', label:'Resting Voltage Warning (V)',  sub:'Warn when estimated resting voltage drops below this', range:[0,20] },
+    { key:'OSD_W_ACRVOLT',  label:'Avg Cell Resting Warning (V)', sub:'Warn when avg cell resting voltage drops below this', range:[0,5] },
+    { key:'OSD_CELL_COUNT', label:'Cell Count Override',         sub:'Override cell count for cell voltage calc (−1=auto)', range:[-1,48] },
+  ],
+};
+
+const OSD_SCREENS = [
+  { key:'OSD1_ENABLE', label:'OSD Screen 1', sub:'Primary default flying screen' },
+  { key:'OSD2_ENABLE', label:'OSD Screen 2', sub:'Secondary / alt screen' },
+  { key:'OSD3_ENABLE', label:'OSD Screen 3', sub:'Third screen' },
+  { key:'OSD4_ENABLE', label:'OSD Screen 4', sub:'Fourth screen' },
+  { key:'OSD5_ENABLE', label:'OSD Screen 5', sub:'Fifth screen' },
+];
+
+function osdWizGetVal(key) {
+  if (key in currentParams) return currentParams[key];
+  return '';
+}
+
+function osdWizBuildSelect(key, opts, selVal) {
+  const orig = originalParams[key];
+  const cur = currentParams[key];
+  const changed = (cur !== undefined && cur !== orig) ? 'changed' : '';
+  let html = `<select class="osdwiz-field-input ${changed}" id="osdwiz_${key}" onchange="osdWizChange('${key}',this.value)">`;
+  for (const [v,l] of Object.entries(opts)) {
+    const sel = (String(selVal) === String(v)) ? 'selected' : '';
+    html += `<option value="${v}" ${sel}>${v} — ${l}</option>`;
+  }
+  html += `</select>`;
+  return html;
+}
+
+function osdWizBuildNumber(key, val, min, max) {
+  const orig = originalParams[key];
+  const cur = currentParams[key];
+  const changed = (cur !== undefined && cur !== orig) ? 'changed' : '';
+  const minAttr = min !== null ? `min="${min}"` : '';
+  const maxAttr = max !== null ? `max="${max}"` : '';
+  return `<input type="number" class="osdwiz-field-input ${changed}" id="osdwiz_${key}" value="${escHtml(String(val))}" ${minAttr} ${maxAttr} step="any" onchange="osdWizChange('${key}',this.value)" oninput="osdWizChange('${key}',this.value)">`;
+}
+
+function osdWizChange(key, val) {
+  if (!agentHasParams()) {
+    showToast('⚠ Load .param or connect FC first', false);
+    return;
+  }
+  setParam(key, String(val));
+  // Re-colour the input to show it's been changed
+  const el = document.getElementById('osdwiz_' + key);
+  if (el) {
+    const orig = originalParams[key];
+    el.classList.toggle('changed', String(val) !== String(orig));
+  }
+  // Update changed count badge
+  const badge = document.getElementById('osdwiz-changed-badge');
+  if (badge) {
+    const n = osdWizCountChanges();
+    badge.textContent = n > 0 ? `${n} param${n===1?'':'s'} staged` : '';
+    badge.style.display = n > 0 ? '' : 'none';
+  }
+}
+
+function osdWizCountChanges() {
+  let n = 0;
+  const allKeys = [
+    ...OSD_WIZARD_PARAMS.hardware,
+    ...OSD_WIZARD_PARAMS.display,
+    ...OSD_WIZARD_PARAMS.screens,
+    ...OSD_WIZARD_PARAMS.warnings,
+    ...OSD_SCREENS,
+  ].map(p => p.key);
+  for (const k of allKeys) {
+    if (currentParams[k] !== undefined && currentParams[k] !== originalParams[k]) n++;
+  }
+  return n;
+}
+
+function osdWizToggleScreen(key, enabled) {
+  osdWizChange(key, enabled ? '1' : '0');
+  // Refresh screen card visual state
+  const card = document.getElementById('osdwiz_screen_card_' + key);
+  if (card) {
+    card.classList.toggle('enabled', enabled);
+    const badge = card.querySelector('.sc-badge');
+    if (badge) badge.textContent = enabled ? 'Enabled' : 'Disabled';
+  }
+}
+
+async function osdWizApplyAndReboot() {
+  if (!agentHasParams()) { showToast('⚠ Load .param or connect FC first', false); return; }
+  const n = osdWizCountChanges();
+  if (n === 0) { showToast('ℹ No changes staged', false); return; }
+  if (agentIsConnected()) {
+    await writeChangedParams();
+    agentState.osdconfig = agentState.osdconfig || {};
+    agentState.osdconfig.applied = true;
+    agentState.osdconfig.rebooted = true;
+    agentState.afterReconnectOSD = true;
+    await rebootFcAndReloadParams();
+  } else {
+    showToast('⚠ Connect to FC to write and reboot, or export .param file', false);
+  }
+}
+
+function osdWizWriteOnly() {
+  if (!agentHasParams()) { showToast('⚠ Load .param or connect FC first', false); return; }
+  const n = osdWizCountChanges();
+  if (n === 0) { showToast('ℹ No OSD changes staged', false); return; }
+  if (agentIsConnected()) {
+    agentWriteNow();
+  } else {
+    showToast('⚠ Not connected — stage saved; export .param to apply manually', false);
+  }
+}
+
+function osdWizGoToOSDDisplays() {
+  closeAgent();
+  setActiveCategory('osd');
+}
+
+function renderOsdConfigWizard(area) {
+  const hasParams = agentHasParams();
+  const connected = agentIsConnected();
+  const s = agentState.osdconfig || {};
+  const changedCount = osdWizCountChanges();
+
+  function fieldHTML(p) {
+    const val = osdWizGetVal(p.key);
+    let control;
+    if (p.opts) {
+      control = osdWizBuildSelect(p.key, p.opts, val);
+    } else {
+      const min = p.range ? p.range[0] : null;
+      const max = p.range ? p.range[1] : null;
+      control = osdWizBuildNumber(p.key, val, min, max);
+    }
+    return `<div class="osdwiz-field">
+      <label>${p.key}</label>
+      <div class="sub">${p.label}</div>
+      ${control}
+      <div class="sub" style="font-size:10px;color:var(--text3);margin-top:2px;">${p.sub}</div>
+    </div>`;
+  }
+
+  function sectionHTML(num, title, fields) {
+    return `
+    <div class="osdwiz-section">
+      <div class="osdwiz-section-hdr">
+        <div class="badge-num">${num}</div>
+        <div class="title">${title}</div>
+        <div class="line"></div>
+      </div>
+      <div class="osdwiz-grid">
+        ${fields.map(p => fieldHTML(p)).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Screens section HTML
+  const screensHTML = `
+  <div class="osdwiz-section">
+    <div class="osdwiz-section-hdr">
+      <div class="badge-num">5</div>
+      <div class="title">Enable OSD Screens</div>
+      <div class="line"></div>
+    </div>
+    <div style="margin-bottom:8px;font-size:11px;color:var(--text2);">Toggle each screen on or off. Screen contents (element positions) are configured in the <strong>OSD Displays</strong> category after reboot.</div>
+    <div class="osdwiz-screen-grid">
+      ${OSD_SCREENS.map(sc => {
+        const val = osdWizGetVal(sc.key);
+        const enabled = String(val) === '1';
+        return `
+        <div class="osdwiz-screen-card ${enabled ? 'enabled' : ''}" id="osdwiz_screen_card_${sc.key}">
+          <div class="sc-head">
+            <div class="sc-name">${sc.label}</div>
+          </div>
+          <div style="font-size:11px;color:var(--text3);">${sc.sub}</div>
+          <label class="sc-toggle">
+            <input type="checkbox" ${enabled ? 'checked' : ''} onchange="osdWizToggleScreen('${sc.key}', this.checked)">
+            <span>${sc.key}</span>
+          </label>
+          <div class="sc-badge">${enabled ? 'Enabled' : 'Disabled'}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+
+  const rebooted = s.rebooted;
+
+  area.innerHTML = `
+  <div class="content-header">
+    <div>
+      <h1>🤖 Configuration Wizards · 📺 OSD Setup</h1>
+      <p>Configure global OSD parameters, warning thresholds, and screen enable/disable</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="btn" onclick="closeAgent()">← Back</button>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;overflow:hidden;flex:1;min-height:0;">
+    <div class="osdwiz-scroll">
+
+      ${!hasParams ? `<div class="osdwiz-note">⚠ No parameters loaded. Load a <code>.param</code> file or connect to a flight controller first to stage changes.</div>` : ''}
+
+      ${rebooted ? `<div class="osdwiz-success">✅ OSD parameters written and FC rebooted. You can now proceed to <strong>OSD Displays</strong> to position each screen element.</div>` : ''}
+
+      <div class="osdwiz-note">
+        <strong>How to use:</strong> Set the options below to configure your OSD hardware, display layout, screen switching, and warning thresholds.
+        When done, click <strong>Write &amp; Reboot FC</strong> — after reboot you'll be directed to <em>OSD Displays</em> to position each item per-screen.
+        If not connected, use <strong>Stage Only</strong> then export your <code>.param</code> file.
+      </div>
+
+      ${sectionHTML(1, 'Hardware & Connection', OSD_WIZARD_PARAMS.hardware)}
+      ${sectionHTML(2, 'Display & Units', OSD_WIZARD_PARAMS.display)}
+      ${sectionHTML(3, 'Screen Switching', OSD_WIZARD_PARAMS.screens)}
+      ${sectionHTML(4, 'Warning Thresholds', OSD_WIZARD_PARAMS.warnings)}
+      ${screensHTML}
+
+    </div>
+
+    <div class="osdwiz-actions">
+      <span id="osdwiz-changed-badge" class="osdwiz-changed-count" style="${changedCount > 0 ? '' : 'display:none'}">${changedCount} param${changedCount===1?'':'s'} staged</span>
+      <div class="spacer"></div>
+      <button class="btn" onclick="osdWizWriteOnly()" ${connected && hasParams ? '' : 'disabled'} title="${connected ? '' : 'Connect FC to write'}">💾 Write to FC</button>
+      <button class="btn primary" onclick="osdWizApplyAndReboot()" ${connected && hasParams ? '' : 'disabled'} title="${connected ? '' : 'Connect FC to write & reboot'}">⚡ Write &amp; Reboot FC</button>
+      <button class="btn success" onclick="osdWizGoToOSDDisplays()">📺 Go to OSD Displays →</button>
+    </div>
+  </div>
+  `;
+}
+
+// ============================================================
 // GLOBAL PARAMETER TOOLTIP ENGINE
 // Attaches a single fixed-position tooltip to <body> so it is
 // never clipped by param-table (overflow:hidden) or
@@ -10311,6 +10646,8 @@ function renderCompassCalWizard(area){
 </script>
 </body>
 </html>
+
+
 
 
 
