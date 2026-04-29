@@ -1,5 +1,3 @@
-<meta http-equiv="refresh" content="0; URL='https://nsstein.github.io/arduWebConf/html/'">
-
 A single HTML/JavaScript/CSS file that can be opened directly in Chrome or hosted on a website. The solution is designed to support ArduPilot configuration in a clean, multi-platform environment. Wizards and parameter groupings will continue to evolve to improve usability and streamline configuration workflows.
 
 <img width="1983" height="1226" alt="Screenshot 2026-04-27 at 7 37 19 PM" src="https://github.com/user-attachments/assets/02a7e74f-5ca2-4516-9579-86621f952e80" />
