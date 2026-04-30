@@ -16,7 +16,7 @@
 <link href="manifest.json" rel="manifest"/>
 <link href="icon-192.png" rel="icon"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ArduPilot Web Configurator v0.1.55.8</title>
+<title>ArduPilot Web Configurator v0.1.55.9</title>
 <style>
   :root {
 	--bg: #262c38;
@@ -24,14 +24,14 @@
     --bg3: #1a1e29;
     --bg4: #222738;
     --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.13);
+    --border2: rgba(255,255,255,0.2); /* Sharper borders for cards --border2: rgba(255,255,255,0.13); */
     --accent: #3b82f6;
     --accent2: #60a5fa;
     --accent-dim: rgba(59,130,246,0.15);
     --accent-dim2: rgba(59,130,246,0.08);
     --text: #e8eaf0;
     --text2: #8b91a8;
-    --text3: #555d78;
+    --text3: #7e86a0; /* Improved contrast from #555d78 --text3: #555d78; */
     --green: #34d399;
     --green-dim: rgba(52,211,153,0.12);
     --amber: #fbbf24;
@@ -1241,6 +1241,8 @@
   overflow: hidden;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  border: 1px solid var(--border);
 }
 .start-card::before{
   content:'';
@@ -1281,7 +1283,7 @@
 }
 .start-dropzone.drag-over{ border-color: var(--accent); background: rgba(59,130,246,0.08); }
 .start-dropzone .row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
-.start-dropzone .row .label{ font-size:12px; color: var(--text2); }
+.start-dropzone .row .label{ font-size:12px; color: var(--text2);border: 2px dashed rgba(255,255,255,0.15); }
 
 .demo-grid{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px; }
 .demo-btn{
@@ -1392,7 +1394,12 @@
 .tab-btn:hover            { color: var(--text2); background: var(--bg3); border-color: var(--border); }
 
 /* --- Landing page cards (all three cards get equal feedback) --- */
-.start-card:hover         { background: var(--bg3); border-color: var(--border2); cursor: pointer; }
+.start-card:hover         { background: var(--bg3); 
+							border-color: var(--border2); 
+							border-color: var(--accent);
+  							transform: translateY(-2px);
+  							background: var(--bg3)
+							cursor: pointer; }
 .start-card.primary:hover { background: linear-gradient(180deg, rgba(59,130,246,0.18), rgba(19,22,30,0.98)); border-color: rgba(59,130,246,0.60); }
 
 /* --- Demo buttons inside Explore card --- */
@@ -1729,7 +1736,7 @@
 <div class="topbar" id="topbar">
   <div class="logo">
     <a href="javascript:safeReload();"><div class="logo-icon">✈</div></a>
-    ArduPilot Web Configurator v0.1.55.8
+    ArduPilot Web Configurator v0.1.55.9
   </div>
   <div class="topbar-spacer"></div>
   <div id="statusPill" class="status-pill empty">
@@ -1782,10 +1789,10 @@
     <div style="margin-top:6px;font-size:13px;color:var(--text3);line-height:1.6;">Choose how you want to work: connect to a flight controller, open a saved parameter file, or launch a demo configuration.</div>
   </div>
 
-  <div class="start-grid" style="margin-top:14px;">
+  <div class="start-grid" style="margin-top:10px;">
 
     <!-- Connect -->
-    <div class="start-card primary">
+    <div class="start-card">
       <div class="body">
         <div class="hdr">
           <div class="ico">🔌</div>
@@ -1799,7 +1806,7 @@
 
         <div class="actions">
           <button class="btn primary" style="justify-content:center;" onclick="openConnectModal()">Connect & Read Params</button>
-          <button class="btn" onclick="openConnectModal()">Port / Baud Options…</button>
+          <!-- button class="btn" onclick="openConnectModal()">Port / Baud Options…</button -->
         </div>
 
         <div class="hint">Requires Chrome or Edge with Web Serial API.</div>
@@ -1828,8 +1835,8 @@
         </div>
 
         <div class="actions">
-          <button class="btn" onclick="openParamFile()">Choose File</button>
-          <button class="btn" onclick="exportParams()" disabled id="startExportHint">Export (after load)</button>
+          <!-- button class="btn" onclick="openParamFile()">Choose File</button -->
+          <!-- button class="btn" onclick="exportParams()" disabled id="startExportHint">Export (after load)</button -->
         </div>
 
         <div class="hint">Tip: Use this when you’re iterating offline or sharing a known-good baseline.</div>
@@ -1855,7 +1862,7 @@
         </div>
 
         <div class="actions" style="margin-top:10px;">
-          <button class="btn" onclick="setActiveCategory('agents')" disabled id="startWizardHint">Open Wizards (after load)</button>
+          <!-- button class="btn" onclick="setActiveCategory('agents')" disabled id="startWizardHint">Open Wizards (after load)</button -->
         </div>
 
         <div class="hint">Demos load instantly — great for UI testing and learning the layout.</div>
@@ -10966,22 +10973,41 @@ function renderOsdConfigWizard(area) {
     }, 80);
   }
 
-  // Event delegation on document — works even after DOM re-renders
+  // Optimized Tooltip Delegation
+  let tipTimer;
+
   document.addEventListener('mouseover', function(e) {
     const wrap = e.target.closest('.param-name-wrap.has-desc');
     if (!wrap) return;
+
+    // Prevent flicker when moving between children of the same wrap
+    if (e.relatedTarget && wrap.contains(e.relatedTarget)) return;
+
     const desc = wrap.dataset.desc || '';
     if (!desc) return;
-    showTip(wrap, desc);
+
+    clearTimeout(tipTimer);
+    // Tiny delay prevents accidental triggers while moving the mouse across the screen
+    tipTimer = setTimeout(() => {
+      showTip(wrap, desc);
+    }, 50);
   }, true);
 
   document.addEventListener('mouseout', function(e) {
     const wrap = e.target.closest('.param-name-wrap.has-desc');
     if (!wrap) return;
-    // Only hide if the mouse is truly leaving the wrap (not entering a child)
-    if (wrap.contains(e.relatedTarget)) return;
+
+    // Only hide if we are truly leaving the wrap container
+    if (e.relatedTarget && wrap.contains(e.relatedTarget)) return;
+
+    clearTimeout(tipTimer);
     hideTip();
   }, true);
+
+  // Ensure the tooltip never captures the mouse
+  const style = document.createElement('style');
+  style.textContent = '#param-global-tooltip { pointer-events: none !important; }';
+  document.head.appendChild(style);
 
   // Keyboard: show on focus, hide on blur
   document.addEventListener('focusin', function(e) {
