@@ -16,7 +16,7 @@
 <link href="manifest.json" rel="manifest"/>
 <link href="icon-192.png" rel="icon"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ArduWebConf v0.3.0</title>
+<title>ArduWebConf v0.5.0</title>
 <style>
   :root {
         --bg: #262c38;
@@ -1183,8 +1183,12 @@
 }
 .setup-step:hover { border-color:var(--border2); background:var(--bg3); }
 .setup-step:not(.done) { border-color:rgba(251,191,36,0.18); }
+.setup-step.partial { border-color:rgba(96,165,250,0.24); }
+.setup-step.recommended { border-color:rgba(96,165,250,0.34); box-shadow:0 0 0 1px rgba(96,165,250,0.10) inset; }
 .setup-step.done  { border-color:rgba(52,211,153,0.30); }
 .setup-step.done .ss-num { background:rgba(52,211,153,0.18); border-color:rgba(52,211,153,0.45); color:var(--green); }
+.setup-step.partial .ss-num,
+.setup-step.recommended .ss-num { background:rgba(59,130,246,0.18); border-color:rgba(96,165,250,0.45); color:var(--accent2); }
 .setup-step .ss-num {
   width:24px; height:24px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
@@ -1195,11 +1199,99 @@
 .setup-step .ss-title { font-size:13px; font-weight:600; color:var(--text); }
 .setup-step .ss-sub   { font-size:11px; color:var(--text3); margin-top:2px; line-height:1.45; }
 .setup-step .ss-action{ font-size:11px; color:var(--accent2); margin-top:4px; }
+.setup-step .ss-meta{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+.setup-step .ss-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:10px; color:var(--text2);
+  padding:2px 8px; border-radius:999px;
+  border:1px solid var(--border); background:var(--bg3);
+}
 .setup-step .ss-badge { margin-left:auto; flex-shrink:0; }
+
+.setup-hero{
+  display:grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap:12px;
+  margin-bottom:12px;
+}
+.setup-hero-card{
+  background:
+    radial-gradient(circle at top right, rgba(96,165,250,0.14), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,0.025), rgba(0,0,0,0.06));
+  border:1px solid var(--border);
+  border-radius:var(--radius2);
+  padding:14px 16px;
+}
+.setup-hero-kpis{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:8px;
+  margin-top:12px;
+}
+.setup-hero-kpi{
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.02);
+}
+.setup-hero-kpi .k{ font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.8px; }
+.setup-hero-kpi .v{ margin-top:4px; font-size:18px; font-family:var(--font); font-weight:700; color:var(--text); }
+.setup-hero-kpi .s{ margin-top:3px; font-size:11px; color:var(--text3); }
+.setup-next-card{
+  display:flex; flex-direction:column; gap:10px;
+  background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius2); padding:14px 16px;
+}
+.setup-next-card .eyebrow{
+  font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; font-weight:800;
+}
+.setup-next-card .title{ font-size:16px; font-weight:800; color:var(--text); }
+.setup-next-card .sub{ font-size:12px; color:var(--text2); line-height:1.55; }
+.setup-next-actions{ display:flex; flex-wrap:wrap; gap:8px; margin-top:2px; }
+.setup-lane-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.setup-lane-card{
+  background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius2); padding:12px 14px;
+}
+.setup-lane-card .lane-k{ font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.9px; font-weight:800; }
+.setup-lane-card .lane-v{ margin-top:6px; font-size:13px; font-weight:700; color:var(--text); }
+.setup-lane-card .lane-s{ margin-top:4px; font-size:11px; color:var(--text3); line-height:1.45; }
+.setup-callout{
+  margin-top:10px; padding:10px 12px;
+  border:1px solid rgba(96,165,250,0.26);
+  background:rgba(59,130,246,0.08);
+  border-radius:12px; color:var(--text2); font-size:12px; line-height:1.55;
+}
+.setup-callout.good{
+  border-color:rgba(52,211,153,0.28);
+  background:rgba(52,211,153,0.08);
+}
+.setup-callout.warn{
+  border-color:rgba(251,191,36,0.28);
+  background:rgba(251,191,36,0.08);
+}
 
 /* ── Agent card: wider min-width for badges ── */
 .agent-card { min-height:160px; }
 .agent-card .ac-title { font-size:13px; font-weight:700; line-height:1.3; }
+.agent-card.recommended{
+  border-color:rgba(96,165,250,0.35);
+  box-shadow:0 0 0 1px rgba(96,165,250,0.12) inset;
+}
+.agent-card.complete{
+  border-color:rgba(52,211,153,0.24);
+}
+.agent-status{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:3px 8px; border-radius:999px; font-size:10px; font-weight:700;
+  border:1px solid var(--border); background:var(--bg3); color:var(--text2);
+}
+.agent-status.good{ color:var(--green); border-color:rgba(52,211,153,0.32); background:rgba(52,211,153,0.08); }
+.agent-status.warn{ color:var(--amber); border-color:rgba(251,191,36,0.28); background:rgba(251,191,36,0.08); }
+.agent-status.info{ color:var(--accent2); border-color:rgba(96,165,250,0.28); background:rgba(96,165,250,0.08); }
 
 .agent-wizard{ display:grid; grid-template-columns: 320px 1fr; gap:16px; padding:16px 24px 24px; height: calc(100vh - 120px); overflow:hidden; }
 .agent-steps{ background: var(--bg2); border:1px solid var(--border); border-radius: var(--radius2); overflow:hidden; display:flex; flex-direction:column; }
@@ -2023,6 +2115,85 @@
 
 
 /* ── Overview panel tab toggle (Checklist ↔ Categories) ── */
+.ov-main-tabs {
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05));
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:5px;
+  margin-bottom:16px;
+}
+.ov-main-tab {
+  flex:1 1 220px;
+  min-width:0;
+  padding:10px 12px;
+  border-radius:9px;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--text2);
+  cursor:pointer;
+  text-align:left;
+  font-family:var(--sans);
+  transition:background 0.12s, border-color 0.12s, color 0.12s, transform 0.12s;
+}
+.ov-main-tab:hover {
+  background:var(--bg4);
+  color:var(--text);
+}
+.ov-main-tab.active {
+  background:var(--bg2);
+  color:var(--text);
+  border-color:rgba(96,165,250,0.60);
+  box-shadow:
+    0 0 0 1px rgba(96,165,250,0.22) inset,
+    0 0 0 2px rgba(59,130,246,0.12),
+    0 6px 18px rgba(0,0,0,0.18);
+  position:relative;
+}
+.ov-main-tab.active::after {
+  content:'';
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:-1px;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg, rgba(96,165,250,0.25), rgba(96,165,250,0.95), rgba(96,165,250,0.25));
+}
+.ov-main-tab .t {
+  font-size:12px;
+  font-weight:800;
+  line-height:1.35;
+}
+.ov-main-tab .s {
+  margin-top:4px;
+  font-size:10px;
+  color:var(--text3);
+  letter-spacing:0.2px;
+}
+.ov-main-tab.active .s { color:var(--accent2); }
+.ov-tab-panel {
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.ov-param-launch {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.ov-param-callout {
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(96,165,250,0.24);
+  background:rgba(59,130,246,0.07);
+  color:var(--text2);
+  font-size:12px;
+  line-height:1.6;
+}
 .ov-panel-tabs {
   display: flex;
   gap: 3px;
@@ -2195,6 +2366,82 @@
   margin-top: 6px;
 }
 .setup-step.done .ss-progress-dot { background: var(--green); }
+
+.guide-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:12px;
+}
+.guide-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--radius2);
+  padding:12px;
+}
+.guide-card .t{
+  font-size:12px; font-weight:800; color:var(--text); margin-bottom:8px;
+}
+.guide-card .s{
+  font-size:12px; color:var(--text2); line-height:1.55;
+}
+.guide-card .mini{
+  margin-top:8px; font-size:11px; color:var(--text3); line-height:1.5;
+}
+.guide-checklist{
+  display:flex; flex-direction:column; gap:8px;
+}
+.guide-check{
+  display:flex; align-items:flex-start; gap:8px;
+  padding:9px 10px; border-radius:12px;
+  border:1px solid var(--border); background:rgba(255,255,255,0.02);
+}
+.guide-check.done{ border-color:rgba(52,211,153,0.28); }
+.guide-check .dot{
+  width:16px; height:16px; border-radius:50%;
+  border:1px solid var(--border2); background:var(--bg4);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text3); font-size:10px; flex-shrink:0; margin-top:1px;
+}
+.guide-check.done .dot{
+  background:rgba(52,211,153,0.18); border-color:rgba(52,211,153,0.40); color:var(--green);
+}
+.guide-fields{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:10px;
+}
+.guide-fields .agent-field{ margin-top:0; }
+.guide-actions{
+  display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; align-items:center;
+}
+.guide-note{
+  padding:10px 12px; border-radius:12px; border:1px solid var(--border);
+  background:rgba(255,255,255,0.02); color:var(--text2); font-size:12px; line-height:1.6;
+}
+.guide-note.warn{
+  border-color:rgba(251,191,36,0.28); background:rgba(251,191,36,0.08);
+}
+.guide-note.good{
+  border-color:rgba(52,211,153,0.28); background:rgba(52,211,153,0.08);
+}
+.review-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:12px;
+}
+
+@media (max-width: 1100px){
+  .setup-hero,
+  .setup-lane-grid,
+  .guide-grid,
+  .guide-fields,
+  .review-grid { grid-template-columns: 1fr; }
+  .setup-hero-kpis { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 820px){
+  .ov-main-tabs { flex-direction:column; }
+  .ov-main-tab { flex-basis:auto; }
+}
 </style>
 </head>
 <body>
@@ -2202,7 +2449,7 @@
 <div class="topbar" id="topbar">
   <div class="logo">
     <a href="javascript:safeReload();"><div class="logo-icon">✈</div></a>
-    ArduWebConf v0.3.0
+    ArduWebConf v0.5.0
   </div>
   <div class="topbar-spacer"></div>
   <div id="statusPill" class="status-pill empty">
@@ -2227,7 +2474,7 @@
 
 <div class="main">
   <!-- SIDEBAR -->
-  <div class="sidebar">
+  <div class="sidebar" style="display:none;">
     <div class="sidebar-header">Navigation</div>
     <div class="sidebar-search">
       <input type="text" id="catSearch" placeholder="Filter categories..." oninput="filterCategories(this.value)">
@@ -7082,32 +7329,49 @@ const AGENTS = [
   { id: 'accelcal',    icon: '⬡', group: 'First-Time Calibration',
     title: 'Accelerometer Cal',
     subtitle: 'Rotate the FC through 6 orientations to establish the inertial reference. Required before first flight.',
-    difficulty: 'initial', fcRequired: true },
+    difficulty: 'initial', fcRequired: true, estimatedMin: 4, pills:['Sensor'] },
   { id: 'magcal',      icon: '◎', group: 'First-Time Calibration',
     title: 'Compass Calibration',
     subtitle: 'Rotate the aircraft in all axes to map the magnetic field. Required for heading-hold and GPS modes.',
-    difficulty: 'initial', fcRequired: true },
+    difficulty: 'initial', fcRequired: true, estimatedMin: 5, pills:['Navigation'] },
   { id: 'levelhorizon',icon: '━', group: 'First-Time Calibration',
     title: 'Level Horizon',
     subtitle: 'Place the aircraft on a level surface and confirm attitude reference (AHRS_TRIM). Run after accel cal.',
-    difficulty: 'initial', fcRequired: true },
+    difficulty: 'initial', fcRequired: true, estimatedMin: 2, pills:['Trim'] },
   { id: 'rccal',       icon: '◈', group: 'First-Time Calibration',
     title: 'Radio Calibration',
     subtitle: 'Move all sticks and switches through full travel to capture RCx_MIN, RCx_TRIM, and RCx_MAX values.',
-    difficulty: 'initial', fcRequired: true },
+    difficulty: 'initial', fcRequired: true, estimatedMin: 4, pills:['Receiver'] },
+  // ── Core setup flow ────────────────────────────────────────────────────────
+  { id: 'power',       icon: '⚡', group: 'Essential Vehicle Setup',
+    title: 'Power & Battery',
+    subtitle: 'Set battery monitor type, pack capacity, warning thresholds, and low-battery behavior before flight.',
+    difficulty: 'beginner', fcRequired: false, estimatedMin: 4, pills:['Required'] },
+  { id: 'modes',       icon: '⊕', group: 'Essential Vehicle Setup',
+    title: 'Flight Modes',
+    subtitle: 'Assign the mode channel and build a safe spread of manual, position, mission, and recovery modes.',
+    difficulty: 'beginner', fcRequired: false, estimatedMin: 5, pills:['Required'] },
+  { id: 'safety',      icon: '⚠', group: 'Essential Vehicle Setup',
+    title: 'Safety & Failsafes',
+    subtitle: 'Keep arming checks on, configure battery/throttle/GCS behavior, and add simple fence guardrails.',
+    difficulty: 'beginner', fcRequired: false, estimatedMin: 5, pills:['Required'] },
   // ── Airframe & outputs ─────────────────────────────────────────────────────
   { id: 'airframe',    icon: '◫', group: 'Airframe & Outputs',
     title: 'Airframe & Servo Outputs',
     subtitle: 'Visually assign SERVOx_FUNCTION for Plane or Copter. Conflict detection highlights duplicate assignments.',
-    difficulty: 'advanced', fcRequired: false },
+    difficulty: 'advanced', fcRequired: false, estimatedMin: 6, pills:['Mapping'] },
   { id: 'vtol',        icon: '⬡', group: 'Airframe & Outputs',
     title: 'VTOL / QuadPlane Setup',
     subtitle: 'Step-by-step wizard to enable Q_ENABLE,frame type (Q_FRAME_CLASS/TYPE)',
-    difficulty: 'advanced', fcRequired: false },
+    difficulty: 'advanced', fcRequired: false, estimatedMin: 6, pills:['Q_ENABLE'] },
   { id: 'osdconfig',   icon: '▣', group: 'Airframe & Outputs',
     title: 'OSD Configuration',
     subtitle: 'Enable OSD_TYPE and set OSD screen layout. Then use OSD Displays to drag-and-drop element positions.',
-    difficulty: 'advanced', fcRequired: false },
+    difficulty: 'advanced', fcRequired: false, estimatedMin: 3, pills:['Optional'] },
+  { id: 'review',      icon: '✓', group: 'Final Review',
+    title: 'Ready-to-Fly Review',
+    subtitle: 'See what is complete, what is still risky, and where to jump next before writing or exporting.',
+    difficulty: 'beginner', fcRequired: false, estimatedMin: 2, pills:['Checklist'] },
 ];
 
 const VTOL_TYPES = [
@@ -7123,6 +7387,212 @@ function agentHasQParamsVisible(){
   let n = 0;
   for (const k of keys){ if (k.startsWith('Q_')) { n++; if (n >= 5) return true; } }
   return false;
+}
+
+function setupModeKeyFor(idx){
+  return getVehicleFamily() === 'rover' ? ('MODE' + idx) : ('FLTMODE' + idx);
+}
+
+function setupModeChannelKey(){
+  return getVehicleFamily() === 'rover' ? 'MODE_CH' : 'FLTMODE_CH';
+}
+
+function guidedSetParam(key, value, rerender = true){
+  setParam(String(key), String(value));
+  if (rerender) renderAgents(document.getElementById('contentArea'));
+}
+
+function buildSetupAudit(){
+  const family = getVehicleFamily();
+  const params = currentParams || {};
+  const hasParams = Object.keys(params).length > 0;
+
+  const asX = parseFloat(params['INS_ACCSCAL_X'] || '1');
+  const asY = parseFloat(params['INS_ACCSCAL_Y'] || '1');
+  const asZ = parseFloat(params['INS_ACCSCAL_Z'] || '1');
+  const aoX = parseFloat(params['INS_ACCOFFS_X'] || '0');
+  const aoY = parseFloat(params['INS_ACCOFFS_Y'] || '0');
+  const aoZ = parseFloat(params['INS_ACCOFFS_Z'] || '0');
+  const accelDone = params['INS_ACCSCAL_X'] !== undefined && (
+    Math.abs(asX - 1.0) > 0.0005 || Math.abs(asY - 1.0) > 0.0005 || Math.abs(asZ - 1.0) > 0.0005 ||
+    Math.abs(aoX) > 0.1 || Math.abs(aoY) > 0.1 || Math.abs(aoZ) > 0.1
+  );
+
+  const moX = parseFloat(params['COMPASS_OFS_X'] || '0');
+  const moY = parseFloat(params['COMPASS_OFS_Y'] || '0');
+  const moZ = parseFloat(params['COMPASS_OFS_Z'] || '0');
+  const magDone = params['COMPASS_OFS_X'] !== undefined && (
+    Math.abs(moX) > 0.5 || Math.abs(moY) > 0.5 || Math.abs(moZ) > 0.5
+  );
+
+  const trimX = parseFloat(params['AHRS_TRIM_X'] || '0');
+  const trimY = parseFloat(params['AHRS_TRIM_Y'] || '0');
+  const levelDone = params['AHRS_TRIM_X'] !== undefined && (
+    Math.abs(trimX) > 0.0001 || Math.abs(trimY) > 0.0001 || accelDone
+  );
+
+  const rc1Min = parseInt(params['RC1_MIN'] || '0', 10);
+  const rc1Max = parseInt(params['RC1_MAX'] || '0', 10);
+  const rcDone = params['RC1_MIN'] !== undefined && (
+    rc1Min < 1090 || rc1Max > 1910 || (rc1Min >= 900 && rc1Max <= 2200 && rc1Min > 0 && rc1Max > 0)
+  );
+
+  const calibDoneCount = [accelDone, magDone, levelDone, rcDone].filter(Boolean).length;
+
+  const modeChannelKey = setupModeChannelKey();
+  const modeKeys = [1,2,3,4,5,6].map(setupModeKeyFor);
+  const assignedModes = modeKeys.filter(k => params[k] !== undefined && String(params[k]) !== '');
+  const nonZeroModes = assignedModes.filter(k => String(params[k]) !== '0');
+  const modeChannelSet = params[modeChannelKey] !== undefined && Number(params[modeChannelKey]) > 0;
+  const modesDone = modeChannelSet && nonZeroModes.length >= Math.min(3, Math.max(assignedModes.length, 3));
+
+  const battMonitor = Number(params['BATT_MONITOR'] || 0);
+  const battCapacity = Number(params['BATT_CAPACITY'] || 0);
+  const lowVolt = Number(params['BATT_LOW_VOLT'] || 0);
+  const critVolt = Number(params['BATT_CRT_VOLT'] || 0);
+  const lowMah = Number(params['BATT_LOW_MAH'] || 0);
+  const critMah = Number(params['BATT_CRT_MAH'] || 0);
+  const powerDone = battMonitor > 0 && (battCapacity > 0 || lowVolt > 0 || lowMah > 0 || critMah > 0 || critVolt > 0);
+
+  const armingEnabled = params['ARMING_CHECK'] !== undefined && String(params['ARMING_CHECK']) !== '0';
+  const batteryFailsafe = Number(params['BATT_FS_LOW_ACT'] || 0) > 0 || Number(params['BATT_FS_CRT_ACT'] || 0) > 0;
+  const throttleFailsafe = Number(params['THR_FAILSAFE'] || 0) > 0 || Number(params['FS_SHORT_ACTN'] || 0) > 0 || Number(params['FS_LONG_ACTN'] || 0) > 0 || Number(params['FS_GCS_ENABL'] || 0) > 0;
+  const fenceEnabled = Number(params['FENCE_ENABLE'] || 0) > 0;
+  const fenceConfigured = fenceEnabled && (Number(params['FENCE_RADIUS'] || 0) > 0 || Number(params['FENCE_ALT_MAX'] || 0) > 0);
+  const safetyDone = armingEnabled && (batteryFailsafe || throttleFailsafe || fenceConfigured);
+
+  const servoAssignedCount = Object.keys(params).filter(k => /^SERVO\d+_FUNCTION$/.test(k) && String(params[k]) !== '0').length;
+  const airframeDone = family === 'copter'
+    ? servoAssignedCount >= 4
+    : (servoAssignedCount >= 2 || Number(params['Q_ENABLE'] || 0) > 0);
+
+  const gpsConfigured = params['GPS_TYPE'] !== undefined && String(params['GPS_TYPE']) !== '0';
+  const compassEnabled = params['COMPASS_ENABLE'] !== undefined && String(params['COMPASS_ENABLE']) !== '0';
+
+  const steps = [
+    {
+      id: 'calibration',
+      title: 'Calibrate Sensors & Radio',
+      sub: 'Accelerometer, compass, level horizon, and RC calibration give you a trustworthy baseline.',
+      hint: 'Do these with the flight controller connected and the propeller system safe.',
+      done: calibDoneCount === 4,
+      partial: calibDoneCount > 0 && calibDoneCount < 4,
+      progressText: `${calibDoneCount}/4 complete`,
+      agent: calibDoneCount < 4 ? ['accelcal','magcal','levelhorizon','rccal'].find(id => !({
+        accelcal: accelDone, magcal: magDone, levelhorizon: levelDone, rccal: rcDone
+      })[id]) : 'review'
+    },
+    {
+      id: 'airframe',
+      title: 'Map Airframe & Outputs',
+      sub: family === 'plane'
+        ? 'Confirm the airframe layout and servo assignments before you rely on any modes.'
+        : 'Confirm motor or actuator outputs and catch duplicate functions before power-up.',
+      hint: family === 'plane' ? 'Use the visual output mapper to verify the control surfaces you expect.' : 'Use the visual mapper so motor/function conflicts stand out immediately.',
+      done: airframeDone,
+      partial: servoAssignedCount > 0 && !airframeDone,
+      progressText: `${servoAssignedCount} assigned outputs`,
+      agent: Number(params['Q_ENABLE'] || 0) > 0 ? 'vtol' : 'airframe'
+    },
+    {
+      id: 'power',
+      title: 'Configure Power & Battery',
+      sub: 'A battery monitor, sensible capacity, and warnings are what make failsafes meaningful.',
+      hint: 'Mission Planner exposes this early for a reason: battery data should not be optional.',
+      done: powerDone,
+      partial: battMonitor > 0 && !powerDone,
+      progressText: battMonitor > 0 ? 'Monitor configured' : 'Monitor disabled',
+      agent: 'power'
+    },
+    {
+      id: 'modes',
+      title: 'Assign Flight Modes',
+      sub: 'Build a clear spread of manual, stabilized, mission, and recovery modes instead of six random slots.',
+      hint: 'QGroundControl surfaces this as a dedicated step because it directly affects first-flight safety.',
+      done: modesDone,
+      partial: nonZeroModes.length > 0 && !modesDone,
+      progressText: `${nonZeroModes.length}/6 slots assigned`,
+      agent: 'modes'
+    },
+    {
+      id: 'safety',
+      title: 'Set Safety & Failsafes',
+      sub: 'Keep arming checks enabled and decide what happens on low battery, lost input, or a fence breach.',
+      hint: 'Avoid the Mission Planner trap of burying critical safety behavior in the full parameter list.',
+      done: safetyDone,
+      partial: armingEnabled || batteryFailsafe || throttleFailsafe || fenceConfigured,
+      progressText: [
+        armingEnabled ? 'arming' : null,
+        batteryFailsafe ? 'battery FS' : null,
+        throttleFailsafe ? 'link FS' : null,
+        fenceConfigured ? 'fence' : null
+      ].filter(Boolean).join(' · ') || 'No safety items staged',
+      agent: 'safety'
+    },
+    {
+      id: 'review',
+      title: 'Review Before Writing or Exporting',
+      sub: 'Check pending changes, spot missing essentials, and only then write to the FC or export a file.',
+      hint: 'Modern flows should end with a confidence check, not a cliff-edge “write everything now”.',
+      done: false,
+      partial: false,
+      progressText: hasPendingChanges() ? 'Pending parameter changes' : 'No pending changes',
+      agent: 'review'
+    }
+  ];
+
+  const completedPrimary = steps.slice(0, 5).filter(s => s.done).length;
+  const nextStep = steps.find(s => !s.done) || steps[steps.length - 1];
+  const primaryComplete = completedPrimary === 5;
+
+  return {
+    family,
+    hasParams,
+    accelDone,
+    magDone,
+    levelDone,
+    rcDone,
+    powerDone,
+    modesDone,
+    safetyDone,
+    airframeDone,
+    gpsConfigured,
+    compassEnabled,
+    armingEnabled,
+    batteryFailsafe,
+    throttleFailsafe,
+    fenceConfigured,
+    modeChannelKey,
+    battMonitor,
+    steps,
+    completedPrimary,
+    primaryTotal: 5,
+    primaryComplete,
+    nextStep,
+    summary: primaryComplete
+      ? 'Core first-flight setup looks covered. Finish with a review and confirm the live aircraft still matches the file.'
+      : `Next recommended step: ${nextStep.title}.`
+  };
+}
+
+function getAgentAuditState(agentId, audit = buildSetupAudit()){
+  const map = {
+    accelcal: audit.accelDone,
+    magcal: audit.magDone,
+    levelhorizon: audit.levelDone,
+    rccal: audit.rcDone,
+    power: audit.powerDone,
+    modes: audit.modesDone,
+    safety: audit.safetyDone,
+    airframe: audit.airframeDone,
+    review: audit.primaryComplete && !hasPendingChanges(),
+    vtol: Number((currentParams || {})['Q_ENABLE'] || 0) > 0,
+    osdconfig: Number((currentParams || {})['OSD_TYPE'] || (currentParams || {})['OSD_TYPE2'] || 0) > 0
+  };
+  if (audit.nextStep && audit.nextStep.agent === agentId) return { label:'Recommended', cls:'info', recommended:true };
+  if (map[agentId]) return { label:'Ready', cls:'good', complete:true };
+  if (['vtol','osdconfig'].includes(agentId)) return { label:'Optional', cls:'info' };
+  return { label:'Needs attention', cls:'warn' };
 }
 
 function agentApplyPairs(pairs){
@@ -7205,6 +7675,7 @@ function renderAgents(area){
   if (agentState.selected !== 'levelhorizon') { try { stopLevelHorizonMonitor(); } catch(_) {} }
   if (agentState.selected !== 'rccal') { try { rcCalStopMonitoring(); } catch(_) {} }
   const hasParams = agentHasParams();
+  const audit = buildSetupAudit();
   const cat = CATEGORIES.find(c => c.id === 'agents');
 
   if (!agentState.selected){
@@ -7212,13 +7683,62 @@ function renderAgents(area){
       <div class="content-header">
         <div>
           <h1 style="font-size:15px;">◈ Setup Wizards</h1>
-          <p>Guided wizards for first-time calibration and airframe configuration — work offline with a .param file or with FC connected.</p>
+          <p>Guided setup for aircraft bring-up: work from calibration through power, modes, safety, and final review without losing the simplicity of a one-file tool.</p>
         </div>
         <div class="search-global" style="display:flex;gap:8px;align-items:center;">
           <span class="status-pill ${hasParams ? 'loaded' : 'empty'}" style="margin-left:0;"> <span class="status-dot"></span> ${hasParams ? 'Params loaded' : 'Load .param or connect FC to stage changes'} </span>
         </div>
       </div>
-      <div class="agent-wrap"><div id="agentGrid"></div></div>
+      <div class="agent-wrap">
+        <div class="setup-hero">
+          <div class="setup-hero-card">
+            <div class="eyebrow" style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:800;">Setup Journey</div>
+            <div style="margin-top:6px;font-size:18px;font-weight:800;color:var(--text);">${audit.primaryComplete ? 'Core aircraft setup looks covered' : 'Bring-up is in progress'}</div>
+            <div style="margin-top:6px;font-size:12px;color:var(--text2);line-height:1.6;">${audit.summary}</div>
+            <div class="setup-hero-kpis">
+              <div class="setup-hero-kpi">
+                <div class="k">Primary Steps</div>
+                <div class="v">${audit.completedPrimary}/${audit.primaryTotal}</div>
+                <div class="s">calibration, airframe, power, modes, safety</div>
+              </div>
+              <div class="setup-hero-kpi">
+                <div class="k">Pending Changes</div>
+                <div class="v">${Object.keys(currentParams || {}).filter(k => currentParams[k] !== originalParams[k]).length}</div>
+                <div class="s">${agentIsConnected() ? 'ready to write when you are' : 'stage offline, write later'}</div>
+              </div>
+              <div class="setup-hero-kpi">
+                <div class="k">Navigation Baseline</div>
+                <div class="v">${audit.gpsConfigured || audit.compassEnabled ? 'OK' : 'CHECK'}</div>
+                <div class="s">${audit.gpsConfigured ? 'GPS set' : 'GPS not configured'} · ${audit.compassEnabled ? 'Compass on' : 'Compass off'}</div>
+              </div>
+            </div>
+          </div>
+          <div class="setup-next-card">
+            <div class="eyebrow">Recommended Next</div>
+            <div class="title">${audit.nextStep.title}</div>
+            <div class="sub">${audit.nextStep.sub}</div>
+            <div class="setup-next-actions">
+              <button class="btn primary" onclick="openAgent('${audit.nextStep.agent}')">Open ${audit.nextStep.agent === 'review' ? 'Review' : 'Wizard'}</button>
+              <button class="btn" onclick="setActiveCategory('${audit.nextStep.agent === 'review' ? 'overview' : 'agents'}')">${audit.nextStep.agent === 'review' ? 'Back to Overview' : 'Stay in Setup'}</button>
+            </div>
+            <div class="setup-callout ${audit.primaryComplete ? 'good' : ''}">
+              ${audit.primaryComplete
+                ? 'This is where ArduDeck and QGroundControl feel strongest: they end setup with a confidence pass. Use the review wizard to keep this app honest before export or write.'
+                : 'The goal is to avoid the Mission Planner-style “hunt through pages” experience. Each wizard should answer what matters now, what can wait, and what is still unsafe.'}
+            </div>
+          </div>
+        </div>
+        <div class="setup-lane-grid">
+          ${audit.steps.slice(0, 3).map(step => `
+            <div class="setup-lane-card">
+              <div class="lane-k">${step.done ? 'Complete' : (step.partial ? 'In progress' : 'Pending')}</div>
+              <div class="lane-v">${step.title}</div>
+              <div class="lane-s">${step.progressText}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div id="agentGrid" style="margin-top:14px;"></div>
+      </div>
     `;
 
     const grid = document.getElementById('agentGrid');
@@ -7233,15 +7753,18 @@ function renderAgents(area){
     const DIFF_LABEL = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' };
     const GROUP_DESC = {
       'First-Time Calibration': 'Run these in order on a freshly built or newly installed flight controller.',
+      'Essential Vehicle Setup': 'Cover the items modern GCS tools surface prominently before first flight: power, modes, safety.',
       'Airframe & Outputs':     'Configure servo/motor assignments and vehicle-specific parameters.',
+      'Final Review':           'Use a final confidence pass before writing to the FC or handing the file to someone else.',
     };
     grid.innerHTML = agentGroups.map((gName, gi) => {
       const agents = seen.get(gName);
       const cards = agents.map((a, idx) => {
         const diff = a.difficulty || 'beginner';
+        const state = getAgentAuditState(a.id, audit);
         const fcBadge = a.fcRequired
           ? `<span class="ac-badge fc-req">Required</span>`
-          : `<span class="ac-badge offline-ok">FC Based</span>`;
+          : `<span class="ac-badge offline-ok">Offline OK</span>`;
         const diffBadge = `<span class="ac-badge ${diff}">${DIFF_LABEL[diff]||diff}</span>`;
         const timeBadge = a.estimatedMin ? `<span class="ac-badge time">~${a.estimatedMin} min</span>` : '';
         const paramLinks = {
@@ -7249,10 +7772,14 @@ function renderAgents(area){
           osdconfig: `<button class="btn" style="font-size:11px;padding:4px 8px;" onclick="event.stopPropagation();setActiveCategory('osd')">OSD Displays →</button>`,
           rccal:     `<button class="btn" style="font-size:11px;padding:4px 8px;" onclick="event.stopPropagation();setActiveCategory('rc')">RC Params →</button>`,
           airframe:  `<button class="btn" style="font-size:11px;padding:4px 8px;" onclick="event.stopPropagation();setActiveCategory('servos')">Servo Params →</button>`,
+          power:     `<button class="btn" style="font-size:11px;padding:4px 8px;" onclick="event.stopPropagation();setActiveCategory('battery')">Battery →</button>`,
+          modes:     `<button class="btn" style="font-size:11px;padding:4px 8px;" onclick="event.stopPropagation();setActiveCategory('flightmodes')">Modes →</button>`,
+          safety:    `<button class="btn" style="font-size:11px;padding:4px 8px;" onclick="event.stopPropagation();setActiveCategory('failsafe')">Failsafes →</button>`,
+          review:    `<button class="btn" style="font-size:11px;padding:4px 8px;" onclick="event.stopPropagation();setActiveCategory('overview')">Overview →</button>`,
         };
         const stepNum = gi === 0 ? `<span style="position:absolute;top:10px;right:12px;font-family:var(--font);font-size:10px;color:var(--text3);font-weight:700;">STEP ${idx+1}</span>` : '';
         return `
-          <div class="agent-card" style="position:relative;cursor:pointer;" onclick="openAgent('${a.id}')">
+          <div class="agent-card ${state.complete ? 'complete' : ''} ${state.recommended ? 'recommended' : ''}" style="position:relative;cursor:pointer;" onclick="openAgent('${a.id}')">
             ${stepNum}
             <div class="ac-top" style="align-items:center;">
               <div class="ac-ico" style="font-size:17px;min-width:34px;">${a.icon}</div>
@@ -7265,6 +7792,7 @@ function renderAgents(area){
               ${diffBadge}${fcBadge}${timeBadge}
               ${(a.pills||[]).map(p => `<span class="agent-pill">${p}</span>`).join('')}
             </div>
+            <div style="margin-top:2px;"><span class="agent-status ${state.cls}">${state.label}</span></div>
             <div style="display:flex;gap:6px;margin-top:10px;align-items:center;">
               <button class="btn primary" style="flex:1;justify-content:center;font-size:12px;" onclick="event.stopPropagation();openAgent('${a.id}')">Open Wizard</button>
               ${paramLinks[a.id] || ''}
@@ -7289,6 +7817,22 @@ function renderAgents(area){
   }
   if (agentState.selected === 'airframe') {
     renderAirframeWizard(area);
+    return;
+  }
+  if (agentState.selected === 'power') {
+    renderPowerWizard(area);
+    return;
+  }
+  if (agentState.selected === 'modes') {
+    renderModesWizard(area);
+    return;
+  }
+  if (agentState.selected === 'safety') {
+    renderSafetyWizard(area);
+    return;
+  }
+  if (agentState.selected === 'review') {
+    renderReviewWizard(area);
     return;
   }
   if (agentState.selected === 'levelhorizon') {
@@ -7420,6 +7964,432 @@ function renderAirframeWizard(area){
     try { agtUpdateDiagram(did); } catch(_) {}
     try { agtRenderSummary(did); } catch(_) {}
   }, 0);
+}
+
+function guidedChoicesForKey(key, fallback = []){
+  const meta = getParamMeta(key);
+  return (meta && meta.values && meta.values.length ? meta.values : fallback).map(opt => ({
+    value: String(opt.value),
+    label: String(opt.label)
+  }));
+}
+
+function renderGuidedSelectField({ key, label, note = '', fallback = [], value = null }){
+  const current = String(value !== null ? value : (currentParams[key] ?? ''));
+  const choices = guidedChoicesForKey(key, fallback);
+  const known = new Set(choices.map(opt => String(opt.value)));
+  const custom = current !== '' && !known.has(current)
+    ? `<option value="${escHtml(current)}" selected>${escHtml(current)} — current</option>`
+    : '';
+  return `
+    <div class="agent-field">
+      <label>${label}</label>
+      <select onchange="guidedSetParam('${key}', this.value)">
+        ${custom}
+        ${choices.map(opt => `<option value="${escHtml(opt.value)}" ${String(opt.value) === current ? 'selected' : ''}>${escHtml(opt.value)} — ${escHtml(opt.label)}</option>`).join('')}
+      </select>
+      ${note ? `<div class="agent-note" style="margin-top:0;">${note}</div>` : ''}
+    </div>
+  `;
+}
+
+function renderGuidedNumberField({ key, label, note = '', min = '', max = '', step = 'any', value = null, placeholder = '' }){
+  const current = String(value !== null ? value : (currentParams[key] ?? ''));
+  const minAttr = min !== '' ? `min="${min}"` : '';
+  const maxAttr = max !== '' ? `max="${max}"` : '';
+  const phAttr = placeholder ? `placeholder="${escHtml(placeholder)}"` : '';
+  return `
+    <div class="agent-field">
+      <label>${label}</label>
+      <input type="number" ${minAttr} ${maxAttr} step="${step}" value="${escHtml(current)}" ${phAttr} onchange="guidedSetParam('${key}', this.value)">
+      ${note ? `<div class="agent-note" style="margin-top:0;">${note}</div>` : ''}
+    </div>
+  `;
+}
+
+function renderGuideChecklist(items){
+  return `
+    <div class="guide-checklist">
+      ${items.map(item => `
+        <div class="guide-check ${item.done ? 'done' : ''}">
+          <div class="dot">${item.done ? '✓' : '•'}</div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);">${item.title}</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;line-height:1.45;">${item.sub}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderPowerWizard(area){
+  const audit = buildSetupAudit();
+  const battActionFallback = [
+    { value:'0', label:'Disabled' },
+    { value:'1', label:'Land / Hold / RTL (vehicle-specific)' },
+    { value:'2', label:'RTL or SmartRTL' }
+  ];
+  const checklist = [
+    { done: audit.battMonitor > 0, title:'Battery monitor selected', sub:'The aircraft should know whether battery telemetry exists at all.' },
+    { done: Number(currentParams['BATT_CAPACITY'] || 0) > 0, title:'Capacity entered', sub:'A pack capacity gives percentage-based battery logic a sane baseline.' },
+    { done: Number(currentParams['BATT_LOW_VOLT'] || 0) > 0 || Number(currentParams['BATT_LOW_MAH'] || 0) > 0, title:'Low warning set', sub:'At least one low threshold should alert you before the critical state.' },
+    { done: Number(currentParams['BATT_FS_LOW_ACT'] || 0) > 0 || Number(currentParams['BATT_FS_CRT_ACT'] || 0) > 0, title:'Battery failsafe action set', sub:'Warning thresholds matter more when they drive a deliberate vehicle action.' }
+  ];
+
+  area.innerHTML = `
+    <div class="content-header">
+      <div>
+        <div class="wiz-crumb"><span>Setup Wizards</span><span class="wiz-crumb-sep">›</span><span class="wiz-crumb-cur">Power & Battery</span></div>
+        <h1 style="margin:0;font-size:16px;">⚡ Power & Battery</h1>
+        <p style="margin-top:2px;">Bring power setup forward in the flow so warnings and failsafes are based on real telemetry, not hope.</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn" onclick="closeAgent()">← Back</button>
+      </div>
+    </div>
+
+    <div class="agent-wizard">
+      <div class="agent-steps">
+        <div class="hdr"><div class="t">Checklist</div><div style="margin-left:auto;color:var(--text3);font-family:var(--font);font-size:11px;">${checklist.filter(x => x.done).length}/${checklist.length}</div></div>
+        <div class="list">${renderGuideChecklist(checklist)}</div>
+      </div>
+
+      <div class="agent-main">
+        <div class="top">
+          <div class="title">Stage power parameters with intent</div>
+          <div class="sub">${agentIsConnected() ? 'FC connected' : 'Offline staging'} · ${audit.powerDone ? 'Power setup looks covered' : 'Needs attention'}</div>
+        </div>
+        <div class="body">
+          <div class="guide-note ${audit.powerDone ? 'good' : 'warn'}">
+            QGroundControl keeps power setup close to safety because battery data drives warnings, failsafes, OSD, and post-flight analysis.
+            This wizard does the same while staying inside one HTML file and without hiding the underlying parameters.
+          </div>
+
+          <div class="guide-grid" style="margin-top:12px;">
+            <div class="guide-card">
+              <div class="t">1. Select the battery source</div>
+              <div class="s">Choose the monitor type first, then only tune voltage/current scaling if your hardware actually needs it.</div>
+              <div class="guide-fields" style="margin-top:12px;">
+                ${renderGuidedSelectField({
+                  key:'BATT_MONITOR',
+                  label:'BATT_MONITOR',
+                  note:'Use Disabled only if this airframe truly has no battery telemetry.',
+                  fallback:[
+                    { value:'0', label:'Disabled' },
+                    { value:'3', label:'Voltage only' },
+                    { value:'4', label:'Analog voltage + current' }
+                  ]
+                })}
+                ${renderGuidedNumberField({
+                  key:'BATT_CAPACITY',
+                  label:'BATT_CAPACITY (mAh)',
+                  note:'Enter the usable pack capacity, not the marketing label if you intentionally under-use the pack.',
+                  min:'0',
+                  step:'1'
+                })}
+                ${renderGuidedNumberField({
+                  key:'BATT_VOLT_MULT',
+                  label:'BATT_VOLT_MULT',
+                  note:'Only change this when calibrating an analog monitor against a trusted multimeter.',
+                  min:'0',
+                  step:'0.01'
+                })}
+                ${renderGuidedNumberField({
+                  key:'BATT_AMP_PERVLT',
+                  label:'BATT_AMP_PERVLT',
+                  note:'For analog current sensors, this is the current-per-volt slope used by ArduPilot.',
+                  min:'0',
+                  step:'0.01'
+                })}
+              </div>
+            </div>
+
+            <div class="guide-card">
+              <div class="t">2. Add warnings before they become emergencies</div>
+              <div class="s">A low threshold is for pilot awareness. A critical threshold is for automated action when you stop being part of the loop.</div>
+              <div class="guide-fields" style="margin-top:12px;">
+                ${renderGuidedNumberField({ key:'BATT_LOW_VOLT', label:'BATT_LOW_VOLT (V)', min:'0', step:'0.1', note:'Use pack voltage, not per-cell voltage.' })}
+                ${renderGuidedNumberField({ key:'BATT_CRT_VOLT', label:'BATT_CRT_VOLT (V)', min:'0', step:'0.1', note:'Critical should be below low warning, never above it.' })}
+                ${renderGuidedNumberField({ key:'BATT_LOW_MAH', label:'BATT_LOW_MAH', min:'0', step:'1', note:'Optional fallback if you trust consumed capacity more than voltage.' })}
+                ${renderGuidedSelectField({ key:'BATT_FS_LOW_ACT', label:'BATT_FS_LOW_ACT', note:'Pick the lightest action that still saves the aircraft.', fallback:battActionFallback })}
+              </div>
+            </div>
+          </div>
+
+          <div class="guide-card" style="margin-top:12px;">
+            <div class="t">3. Quick safety notes</div>
+            <div class="s">What to do: set a real monitor, capacity, and at least one low-threshold action. What not to do: leave battery warnings at zero and assume you will remember to land “soon”.</div>
+            <div class="guide-actions">
+              <button class="btn" onclick="setActiveCategory('battery')">Open Battery Category →</button>
+              <button class="btn" onclick="toggleDiff()" ${agentHasParams() ? '' : 'disabled'}>Review Changes</button>
+              <span style="flex:1"></span>
+              <button class="btn primary" onclick="openAgent('modes')">Next: Flight Modes →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderModesWizard(area){
+  const family = getVehicleFamily();
+  const audit = buildSetupAudit();
+  const modeChannelKey = setupModeChannelKey();
+  const modeRows = [1,2,3,4,5,6].map(i => renderGuidedSelectField({
+    key: setupModeKeyFor(i),
+    label: `${setupModeKeyFor(i)} (${family === 'rover' ? 'switch position' : 'slot'} ${i})`,
+    note: i === 1 ? 'Lead with the mode you want on first arm.' : '',
+    fallback:[]
+  })).join('');
+  const labels = [1,2,3,4,5,6].map(i => getEnumLabel(getParamMeta(setupModeKeyFor(i)), currentParams[setupModeKeyFor(i)]) || String(currentParams[setupModeKeyFor(i)] || ''));
+  const hasRecovery = labels.some(lbl => /RTL|QRTL|QLAND|SMART RTL|LAND|HOLD/i.test(lbl));
+  const hasPilotMode = labels.some(lbl => /MANUAL|STABILIZE|FBW|ACRO|STEERING|QSTABILIZE/i.test(lbl));
+  const checklist = [
+    { done: Number(currentParams[modeChannelKey] || 0) > 0, title:'Mode channel selected', sub:'The flight controller needs a dedicated RC channel for mode switching.' },
+    { done: audit.modesDone, title:'At least three meaningful mode slots assigned', sub:'A modern setup should not leave mode assignment half-finished.' },
+    { done: hasPilotMode, title:'Pilot-controlled fallback mode present', sub:'Keep one mode that feels familiar and predictable if something else surprises you.' },
+    { done: hasRecovery, title:'Recovery mode present', sub:'Give yourself an obvious “save the aircraft” switch position.' }
+  ];
+
+  area.innerHTML = `
+    <div class="content-header">
+      <div>
+        <div class="wiz-crumb"><span>Setup Wizards</span><span class="wiz-crumb-sep">›</span><span class="wiz-crumb-cur">Flight Modes</span></div>
+        <h1 style="margin:0;font-size:16px;">⊕ Flight Modes</h1>
+        <p style="margin-top:2px;">Build a deliberate mode spread instead of scattering advanced modes across six slots.</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn" onclick="closeAgent()">← Back</button>
+      </div>
+    </div>
+
+    <div class="agent-wizard">
+      <div class="agent-steps">
+        <div class="hdr"><div class="t">Sanity Check</div><div style="margin-left:auto;color:var(--text3);font-family:var(--font);font-size:11px;">${checklist.filter(x => x.done).length}/${checklist.length}</div></div>
+        <div class="list">${renderGuideChecklist(checklist)}</div>
+      </div>
+
+      <div class="agent-main">
+        <div class="top">
+          <div class="title">Map switch positions on purpose</div>
+          <div class="sub">${family === 'rover' ? 'Rover mode map' : 'Aircraft mode map'} · ${audit.modesDone ? 'Mode setup looks strong' : 'Needs attention'}</div>
+        </div>
+        <div class="body">
+          <div class="guide-note ${audit.modesDone ? 'good' : 'warn'}">
+            QGroundControl gets this right: flight modes deserve a first-class setup surface.
+            What to do: keep a stable/manual mode, at least one recovery mode, and only then layer in mission modes.
+            What not to do: assign six advanced modes because they sound impressive.
+          </div>
+
+          <div class="guide-card" style="margin-top:12px;">
+            <div class="t">1. Choose the mode switch channel</div>
+            <div class="guide-fields" style="margin-top:12px;">
+              ${renderGuidedNumberField({
+                key: modeChannelKey,
+                label: `${modeChannelKey}`,
+                min:'0',
+                max:'16',
+                step:'1',
+                note:'Use 0 only if you intentionally do not want an RC mode switch.'
+              })}
+            </div>
+          </div>
+
+          <div class="guide-card" style="margin-top:12px;">
+            <div class="t">2. Assign the six positions</div>
+            <div class="guide-fields" style="margin-top:12px;">${modeRows}</div>
+          </div>
+
+          <div class="guide-card" style="margin-top:12px;">
+            <div class="t">3. Recommended spread</div>
+            <div class="s">A good first-flight spread usually includes: one pilot-comfort mode, one position/assist mode, one autonomous or cruise mode, and one recovery mode such as RTL.</div>
+            <div class="guide-actions">
+              <button class="btn" onclick="setActiveCategory('flightmodes')">Open Flight Modes Category →</button>
+              <button class="btn" onclick="toggleDiff()" ${agentHasParams() ? '' : 'disabled'}>Review Changes</button>
+              <span style="flex:1"></span>
+              <button class="btn primary" onclick="openAgent('safety')">Next: Safety & Failsafes →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderSafetyWizard(area){
+  const audit = buildSetupAudit();
+  const checklist = [
+    { done: audit.armingEnabled, title:'Arming checks enabled', sub:'Do not normalize flying with arming checks disabled.' },
+    { done: audit.batteryFailsafe, title:'Battery failsafe action configured', sub:'Low battery should trigger more than a shrug.' },
+    { done: audit.throttleFailsafe, title:'Throttle or link failsafe enabled', sub:'Lost pilot input should lead to a known aircraft behavior.' },
+    { done: audit.fenceConfigured, title:'Simple fence configured', sub:'Even a basic radius/altitude fence is better than nothing on a new aircraft.' }
+  ];
+  const fenceActionFallback = [
+    { value:'0', label:'Report only' },
+    { value:'1', label:'RTL or hold' },
+    { value:'2', label:'Hold' },
+    { value:'6', label:'Loiter or hold' }
+  ];
+
+  area.innerHTML = `
+    <div class="content-header">
+      <div>
+        <div class="wiz-crumb"><span>Setup Wizards</span><span class="wiz-crumb-sep">›</span><span class="wiz-crumb-cur">Safety & Failsafes</span></div>
+        <h1 style="margin:0;font-size:16px;">⚠ Safety & Failsafes</h1>
+        <p style="margin-top:2px;">Keep the easy-to-miss risk settings grouped together so the app teaches safer defaults by layout, not just by documentation.</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn" onclick="closeAgent()">← Back</button>
+      </div>
+    </div>
+
+    <div class="agent-wizard">
+      <div class="agent-steps">
+        <div class="hdr"><div class="t">Guardrails</div><div style="margin-left:auto;color:var(--text3);font-family:var(--font);font-size:11px;">${checklist.filter(x => x.done).length}/${checklist.length}</div></div>
+        <div class="list">${renderGuideChecklist(checklist)}</div>
+      </div>
+
+      <div class="agent-main">
+        <div class="top">
+          <div class="title">Choose failure behavior while you are calm</div>
+          <div class="sub">${audit.safetyDone ? 'Safety setup looks staged' : 'Safety still needs work'}</div>
+        </div>
+        <div class="body">
+          <div class="guide-note ${audit.safetyDone ? 'good' : 'warn'}">
+            This is the biggest “what not to do” lesson from older GCS tools: do not bury essential safety decisions under dozens of unrelated tabs.
+            You should be able to answer, in one place, what the aircraft does on low battery, lost throttle input, or a fence breach.
+          </div>
+
+          <div class="guide-grid" style="margin-top:12px;">
+            <div class="guide-card">
+              <div class="t">1. Keep arming checks on</div>
+              <div class="s">The safest default is to leave pre-arm checks enabled and fix the root issue instead of muting the warning.</div>
+              <div class="guide-actions" style="margin-top:12px;">
+                <button class="btn ${audit.armingEnabled ? 'success' : ''}" onclick="guidedSetParam('ARMING_CHECK','1')">Enable Checks</button>
+                <button class="btn" onclick="guidedSetParam('ARMING_CHECK','0')">Disable Checks</button>
+              </div>
+              <div class="mini">Current ARMING_CHECK: <span style="font-family:var(--font);color:var(--text);">${escHtml(String(currentParams['ARMING_CHECK'] ?? '—'))}</span></div>
+            </div>
+
+            <div class="guide-card">
+              <div class="t">2. Battery and link behavior</div>
+              <div class="guide-fields" style="margin-top:12px;">
+                ${renderGuidedSelectField({ key:'BATT_FS_LOW_ACT', label:'BATT_FS_LOW_ACT', fallback:[
+                  { value:'0', label:'Disabled' },
+                  { value:'1', label:'Land / RTL / Hold (vehicle-specific)' },
+                  { value:'2', label:'RTL or SmartRTL' }
+                ], note:'Choose a real action if power telemetry is available.' })}
+                ${renderGuidedNumberField({ key:'THR_FAILSAFE', label:'THR_FAILSAFE', min:'0', max:'1', step:'1', note:'A simple 1/0 toggle keeps this generic across vehicles.' })}
+              </div>
+            </div>
+          </div>
+
+          <div class="guide-card" style="margin-top:12px;">
+            <div class="t">3. Add a simple fence</div>
+            <div class="guide-fields" style="margin-top:12px;">
+              ${renderGuidedSelectField({ key:'FENCE_ENABLE', label:'FENCE_ENABLE', fallback:[{value:'0',label:'Disabled'},{value:'1',label:'Enabled'}], note:'A simple cylindrical fence is plenty for first flights.' })}
+              ${renderGuidedSelectField({ key:'FENCE_ACTION', label:'FENCE_ACTION', fallback:fenceActionFallback, note:'Keep the response conservative while you are learning the airframe.' })}
+              ${renderGuidedNumberField({ key:'FENCE_RADIUS', label:'FENCE_RADIUS (m)', min:'0', step:'1', note:'A modest radius is enough for initial testing.' })}
+              ${renderGuidedNumberField({ key:'FENCE_ALT_MAX', label:'FENCE_ALT_MAX (m)', min:'0', step:'1', note:'Use a simple ceiling for early flights, especially on a new build.' })}
+            </div>
+            <div class="guide-actions">
+              <button class="btn" onclick="setActiveCategory('failsafe')">Open Failsafe Category →</button>
+              <button class="btn" onclick="setActiveCategory('arming')">Arming Category →</button>
+              <span style="flex:1"></span>
+              <button class="btn primary" onclick="openAgent('review')">Next: Ready-to-Fly Review →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderReviewWizard(area){
+  const audit = buildSetupAudit();
+  const mustFix = audit.steps.slice(0, 5).filter(step => !step.done);
+  const changedCount = Object.keys(currentParams || {}).filter(k => currentParams[k] !== originalParams[k]).length;
+
+  area.innerHTML = `
+    <div class="content-header">
+      <div>
+        <div class="wiz-crumb"><span>Setup Wizards</span><span class="wiz-crumb-sep">›</span><span class="wiz-crumb-cur">Ready-to-Fly Review</span></div>
+        <h1 style="margin:0;font-size:16px;">✓ Ready-to-Fly Review</h1>
+        <p style="margin-top:2px;">Use a final checklist so the workflow ends in confidence, not a write button hidden behind wishful thinking.</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn" onclick="closeAgent()">← Back</button>
+      </div>
+    </div>
+
+    <div class="agent-wizard">
+      <div class="agent-steps">
+        <div class="hdr"><div class="t">Summary</div><div style="margin-left:auto;color:var(--text3);font-family:var(--font);font-size:11px;">${audit.completedPrimary}/${audit.primaryTotal}</div></div>
+        <div class="list">${renderGuideChecklist(audit.steps.slice(0, 5).map(step => ({ done: step.done, title: step.title, sub: step.progressText + ' · ' + step.hint })))}</div>
+      </div>
+
+      <div class="agent-main">
+        <div class="top">
+          <div class="title">${audit.primaryComplete ? 'Core setup is covered' : 'A few essentials still need attention'}</div>
+          <div class="sub">${changedCount} pending changes · ${agentIsConnected() ? 'flight controller connected' : 'offline mode'}</div>
+        </div>
+        <div class="body">
+          <div class="guide-note ${audit.primaryComplete ? 'good' : 'warn'}">
+            ${audit.primaryComplete
+              ? 'This matches the modern pattern worth copying from ArduDeck and QGroundControl: the app can tell you you are probably ready, and still make the underlying parameters visible.'
+              : 'This is the moment to avoid a Mission Planner-style footgun: do not write or export just because a few pages looked correct. Close the gaps below first.'}
+          </div>
+
+          <div class="review-grid" style="margin-top:12px;">
+            <div class="guide-card">
+              <div class="t">Still missing</div>
+              ${mustFix.length
+                ? `<div class="guide-checklist">${mustFix.map(step => `
+                    <div class="guide-check">
+                      <div class="dot">•</div>
+                      <div>
+                        <div style="font-size:12px;font-weight:700;color:var(--text);">${step.title}</div>
+                        <div style="font-size:11px;color:var(--text3);margin-top:2px;line-height:1.45;">${step.hint}</div>
+                        <div style="margin-top:8px;"><button class="btn" onclick="openAgent('${step.agent}')">Open</button></div>
+                      </div>
+                    </div>
+                  `).join('')}</div>`
+                : `<div class="s">No critical first-flight gaps are showing in the current parameter set.</div>`}
+            </div>
+
+            <div class="guide-card">
+              <div class="t">Write / export readiness</div>
+              <div class="s">Pending changes are useful only if you can trust what they mean. Review them once, then either write live or export a shareable baseline.</div>
+              <div class="guide-checklist" style="margin-top:12px;">
+                <div class="guide-check ${changedCount > 0 ? 'done' : ''}">
+                  <div class="dot">${changedCount > 0 ? '✓' : '•'}</div>
+                  <div>
+                    <div style="font-size:12px;font-weight:700;color:var(--text);">${changedCount} pending changes</div>
+                    <div style="font-size:11px;color:var(--text3);margin-top:2px;">Use Changes to make sure the file reflects your intent.</div>
+                  </div>
+                </div>
+                <div class="guide-check ${agentIsConnected() ? 'done' : ''}">
+                  <div class="dot">${agentIsConnected() ? '✓' : '•'}</div>
+                  <div>
+                    <div style="font-size:12px;font-weight:700;color:var(--text);">${agentIsConnected() ? 'Live FC available' : 'Offline-only review'}</div>
+                    <div style="font-size:11px;color:var(--text3);margin-top:2px;">Both are fine. Just do not confuse staged values with confirmed hardware state.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="guide-actions">
+                <button class="btn" onclick="toggleDiff()" ${agentHasParams() ? '' : 'disabled'}>Changes</button>
+                <button class="btn" onclick="exportParams()" ${agentHasParams() ? '' : 'disabled'}>Export .param</button>
+                <button class="btn mav-write-btn" onclick="writeChangedParams()" ${agentIsConnected() ? '' : 'disabled'}>Write to FC</button>
+                <button class="btn" onclick="setActiveCategory('overview')">Overview →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function renderPlaneMap(ailMode, thrMode){
@@ -9316,6 +10286,7 @@ function clearFcMessages(){
 function renderOverview(area) {
   const total = Object.keys(currentParams).length;
   const modified = Object.keys(currentParams).filter(k => currentParams[k] !== originalParams[k]).length;
+  const audit = buildSetupAudit();
 
   // ── Flight modes compact 2-col grid ──
   const modeKeyFor = idx => {
@@ -9353,86 +10324,27 @@ function renderOverview(area) {
   // ── FC connection status ──
   const isConn = !!(typeof mav !== 'undefined' && mav && typeof transport !== 'undefined' && transport && transport.isOpen);
 
-  // ── Checklist completion — verified against actual param values per ArduPilot docs ──
-  // Accelerometer Cal: INS_ACCSCAL_X/Y/Z default=1.0, non-1 after cal; OR any offset non-zero
-  const asX = parseFloat(currentParams['INS_ACCSCAL_X'] || '1');
-  const asY = parseFloat(currentParams['INS_ACCSCAL_Y'] || '1');
-  const asZ = parseFloat(currentParams['INS_ACCSCAL_Z'] || '1');
-  const aoX = parseFloat(currentParams['INS_ACCOFFS_X'] || '0');
-  const aoY = parseFloat(currentParams['INS_ACCOFFS_Y'] || '0');
-  const aoZ = parseFloat(currentParams['INS_ACCOFFS_Z'] || '0');
-  const hasAccelCal = currentParams['INS_ACCSCAL_X'] !== undefined && (
-    Math.abs(asX - 1.0) > 0.0005 || Math.abs(asY - 1.0) > 0.0005 || Math.abs(asZ - 1.0) > 0.0005 ||
-    Math.abs(aoX) > 0.1 || Math.abs(aoY) > 0.1 || Math.abs(aoZ) > 0.1
-  );
-
-  // Compass Cal: COMPASS_OFS_X/Y/Z default=0; any non-zero means calibration ran
-  const moX = parseFloat(currentParams['COMPASS_OFS_X'] || '0');
-  const moY = parseFloat(currentParams['COMPASS_OFS_Y'] || '0');
-  const moZ = parseFloat(currentParams['COMPASS_OFS_Z'] || '0');
-  const hasMagCal = currentParams['COMPASS_OFS_X'] !== undefined && (
-    Math.abs(moX) > 0.5 || Math.abs(moY) > 0.5 || Math.abs(moZ) > 0.5
-  );
-
-  // Level Horizon: AHRS_TRIM_X/Y set by leveling wizard. Any non-zero trim = done.
-  // If trim is exactly 0 but accel cal is done, we assume leveling was at least attempted.
-  const trimX = parseFloat(currentParams['AHRS_TRIM_X'] || '0');
-  const trimY = parseFloat(currentParams['AHRS_TRIM_Y'] || '0');
-  const hasLevelHoriz = currentParams['AHRS_TRIM_X'] !== undefined && (
-    Math.abs(trimX) > 0.0001 || Math.abs(trimY) > 0.0001 || hasAccelCal
-  );
-
-  // RC Calibration: RCx_MIN/MAX differ from ArduPilot defaults (1100/1900).
-  // After calibration sticks produce ~982–1022 min and ~1978–2011 max.
-  const rc1Min = parseInt(currentParams['RC1_MIN'] || '0');
-  const rc1Max = parseInt(currentParams['RC1_MAX'] || '0');
-  const hasRcCal = currentParams['RC1_MIN'] !== undefined && (
-    rc1Min < 1090 || rc1Max > 1910 || (rc1Min >= 900 && rc1Max <= 2200 && rc1Min > 0 && rc1Max > 0)
-  );
-
-  const calChecklist = [
-    {
-      title: 'Accelerometer Calibration',
-      sub: 'Rotate FC through 6 orientations to set inertial reference (INS_ACCSCAL_*, INS_ACCOFFS_*)',
-      hint: 'Required before first flight. FC must be connected.',
-      done: hasAccelCal, agent: 'accelcal'
-    },
-    {
-      title: 'Compass Calibration',
-      sub: 'Rotate aircraft in all axes to map magnetic field (COMPASS_OFS_X/Y/Z)',
-      hint: 'Required for heading-hold and GPS-assisted modes.',
-      done: hasMagCal, agent: 'magcal'
-    },
-    {
-      title: 'Level Horizon',
-      sub: 'Place aircraft on a level surface to set AHRS_TRIM_X/Y attitude reference',
-      hint: 'Run after Accelerometer Cal. Corrects IMU tilt offset.',
-      done: hasLevelHoriz, agent: 'levelhorizon'
-    },
-    {
-      title: 'Radio / RC Calibration',
-      sub: 'Move all sticks and switches to capture RC1–RC8 MIN / TRIM / MAX values',
-      hint: 'Required for all flight. Transmitter must be bound.',
-      done: hasRcCal, agent: 'rccal'
-    },
-  ];
-
-  const doneCount = calChecklist.filter(s => s.done).length;
+  const calChecklist = audit.steps;
+  const doneCount = audit.completedPrimary;
 
   // ── Checklist HTML ──
   const checklistHtml = calChecklist.map((s, i) => `
-    <div class="setup-step ${s.done ? 'done' : ''}" onclick="setActiveCategory('agents');setTimeout(()=>openAgent('${s.agent}'),80);">
+    <div class="setup-step ${s.done ? 'done' : ''} ${!s.done && s.partial ? 'partial' : ''} ${audit.nextStep && audit.nextStep.id === s.id ? 'recommended' : ''}" onclick="setActiveCategory('agents');setTimeout(()=>openAgent('${s.agent}'),80);">
       <div class="ss-num">${s.done ? '✓' : (i+1)}</div>
       <div class="ss-body">
         <div class="ss-title">${s.title}</div>
         <div class="ss-sub">${s.sub}</div>
-        ${s.done ? `<div style="font-size:10px;color:var(--purple);margin-top:3px;">✓ Data detected in parameters</div>`
-                 : `<div class="ss-action">Open wizard →</div>`}
+        <div class="ss-meta">
+          <span class="ss-chip">${escHtml(s.progressText)}</span>
+          ${s.hint ? `<span class="ss-chip">${escHtml(s.hint)}</span>` : ''}
+        </div>
+        ${s.done ? `<div style="font-size:10px;color:var(--purple);margin-top:5px;">✓ Looks complete from current parameters</div>`
+                 : `<div class="ss-action" style="margin-top:6px;">Open wizard →</div>`}
       </div>
       <div class="ss-badge">
         ${s.done
-          ? '<span class="ac-badge beginner">Values Detected</span>'
-          : '<span class="ac-badge fc-req">Action Required</span>'}
+          ? '<span class="ac-badge beginner">Ready</span>'
+          : (!s.partial ? '<span class="ac-badge fc-req">Action Required</span>' : '<span class="ac-badge intermediate">In Progress</span>')}
       </div>
     </div>
   `).join('');
@@ -9456,7 +10368,7 @@ function renderOverview(area) {
     </div>`).join('');
 
   // ── Tab state ──
-  if (!window.__ovPanelTab) window.__ovPanelTab = 'categories';
+  if (!window.__ovMainTab) window.__ovMainTab = 'details';
 
   area.innerHTML = `
     <div class="content-header">
@@ -9471,153 +10383,215 @@ function renderOverview(area) {
 
     <div style="flex:1;overflow-y:auto;padding:18px 24px 28px;">
 
-      <!-- ── CHECKLIST / CATEGORIES (tabbed) ── -->
-      <div class="ov-section">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span class="ov-section-hdr" style="margin-bottom:0;">Setup</span>
-            <span style="font-size:11px;color:var(--text3);">${doneCount}/${calChecklist.length} steps complete</span>
-          </div>
-          <div class="ov-panel-tabs" style="min-width:280px;">
-            <button class="ov-panel-tab ${window.__ovPanelTab === 'checklist' ? 'active' : ''}"
-              style="color:${doneCount === calChecklist.length ? 'var(--green)' : 'var(--purple)'}"
-              onclick="window.__ovPanelTab='checklist';renderContent();">
-              ✓ First-Time Setup Checklist
-            </button>
-            <button class="ov-panel-tab ${window.__ovPanelTab === 'categories' ? 'active' : ''}"
-              onclick="window.__ovPanelTab='categories';renderContent();">
-              ▦ Browse Categories
-            </button>
-          </div>
-        </div>
-
-        ${window.__ovPanelTab === 'categories' ? `
-          <div class="ov-cat-grid-browse">${catTilesHtml}</div>
-        ` : `
-          <div class="setup-checklist">${checklistHtml}</div>
-          <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <button class="btn primary" style="font-size:12px;" onclick="setActiveCategory('agents')">Open All Wizards →</button>
-            <span style="font-size:11px;color:var(--text3);">Complete all 4 steps before first flight. Click any step to open its wizard.</span>
-          </div>
-        `}
+      <div class="ov-main-tabs" role="tablist" aria-label="Overview groups">
+        <button class="ov-main-tab ${window.__ovMainTab === 'details' ? 'active' : ''}" onclick="window.__ovMainTab='details';renderContent();">
+          <div class="t">At a Glance & Flight Details</div>
+          <div class="s">${modified} pending changes · ${isConn ? 'live telemetry available' : 'offline review mode'}</div>
+        </button>
+        <button class="ov-main-tab ${window.__ovMainTab === 'params' ? 'active' : ''}" onclick="window.__ovMainTab='params';renderContent();">
+          <div class="t">All Parameters</div>
+          <div class="s">${total} loaded · browse every category or jump to the full table</div>
+        </button>
+        <button class="ov-main-tab ${window.__ovMainTab === 'setup' ? 'active' : ''}" onclick="window.__ovMainTab='setup';renderContent();">
+          <div class="t">Flight Readiness & Setup Journey</div>
+          <div class="s">${doneCount}/${audit.primaryTotal} core steps complete · ${audit.nextStep.title}</div>
+        </button>
       </div>
 
-      <!-- ── SUMMARY STATS ── -->
-      <div class="ov-section">
-        <div class="ov-section-hdr">At a Glance</div>
-        <div class="ov-stats-row">
-          <div class="ov-stat-card">
-            <div class="sc-label">Total Parameters</div>
-            <div class="sc-value">${total}</div>
-            <div class="sc-sub">loaded</div>
-          </div>
-          <div class="ov-stat-card ${modified > 0 ? 'amber' : ''}">
-            <div class="sc-label">Modified Parameters</div>
-            <div class="sc-value">${modified}</div>
-            <div class="sc-sub">pending changes</div>
-          </div>
-          <div class="ov-stat-card ${(4 - doneCount) > 0 ? 'amber' : 'green'}">
-            <div class="sc-label">Setup Progress</div>
-            <div class="sc-value">${doneCount}/4</div>
-            <div class="sc-sub">cal steps done</div>
-          </div>
-          <div class="ov-stat-card ov-fc-msg-mini-card">
-            <div class="sc-label" style="margin-bottom:5px;">FC Messages</div>
-            <div class="ov-fc-msg-mini-list" id="ovFcMsgMini"><div class="ov-fc-mini-empty">No messages — connect FC</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── FLIGHT DETAILS: 3-column dashboard ── -->
-      <div class="ov-section">
-        <div class="ov-section-hdr">Flight Details</div>
-        <div class="ov-detail-grid-3">
-
-          <!-- Col 1: Flight Modes (compact 2-col chip grid) + Live Status injection target -->
-          <div class="ov-detail-card" id="ovFltModeCard">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-              <div class="ov-section-hdr" style="margin-bottom:0;">Flight Modes</div>
-              <button class="btn" style="font-size:11px;padding:4px 10px;" onclick="setActiveCategory('flightmodes')">Edit →</button>
-            </div>
-            ${fmodeChips
-              ? `<div class="ov-fm-grid">${fmodeChips}</div>`
-              : `<div style="color:var(--text3);font-size:12px;padding:8px 0;font-style:italic;">No flight mode data — load a .param file or connect FC</div>`}
-          </div>
-
-          <!-- Col 2: Attitude Indicator -->
-          <div class="ov-detail-card">
-            <div class="ov-section-hdr" style="margin-bottom:12px;">
-              Attitude
-              <div class="ah-pill" id="ahStatusPill" style="margin-left:auto;">OFFLINE</div>
-            </div>
-            <div style="display:flex;justify-content:center;">
-              <div class="ah-instrument" id="ahInstrument" style="width:180px;height:180px;" title="Artificial Horizon (ATTITUDE telemetry)">
-                <div class="ah-rot" id="ahRot">
-                  <div class="ah-pitch" id="ahPitch">
-                    <div class="ah-sky"></div>
-                    <div class="ah-ground"></div>
-                    <div class="ah-hline"></div>
-                    <div class="ah-pitchmarks">
-                      <div class="pm big" style="top:35%"></div>
-                      <div class="pm" style="top:40%"></div>
-                      <div class="pm" style="top:45%"></div>
-                      <div class="pm" style="top:55%"></div>
-                      <div class="pm" style="top:60%"></div>
-                      <div class="pm big" style="top:65%"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="ah-compass">
-                  <div class="ah-compass-ring" id="ahCompassRing">
-                    <svg viewBox="0 0 200 200" aria-label="Heading ring">
-                      <defs>
-                        <linearGradient id="ahRing" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0" stop-color="rgba(255,255,255,0.18)"/>
-                          <stop offset="1" stop-color="rgba(255,255,255,0.06)"/>
-                        </linearGradient>
-                      </defs>
-                      <circle cx="100" cy="100" r="86" fill="none" stroke="url(#ahRing)" stroke-width="2"/>
-                      <g fill="rgba(255,255,255,0.55)" font-size="10" font-family="var(--font)">
-                        <text x="100" y="22" text-anchor="middle">N</text>
-                        <text x="178" y="104" text-anchor="middle">E</text>
-                        <text x="100" y="190" text-anchor="middle">S</text>
-                        <text x="22" y="104" text-anchor="middle">W</text>
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-                <div class="ah-reticle">
-                  <div class="ah-wing"></div>
-                  <div class="ah-center"></div>
-                  <div class="ah-nose"></div>
-                </div>
-                <div class="ah-bezel"></div>
-                <div class="ah-glass"></div>
+      ${window.__ovMainTab === 'details' ? `
+        <div class="ov-tab-panel">
+          <div class="ov-section">
+            <div class="ov-section-hdr">At a Glance</div>
+            <div class="ov-stats-row">
+              <div class="ov-stat-card">
+                <div class="sc-label">Total Parameters</div>
+                <div class="sc-value">${total}</div>
+                <div class="sc-sub">loaded</div>
+              </div>
+              <div class="ov-stat-card ${modified > 0 ? 'amber' : ''}">
+                <div class="sc-label">Modified Parameters</div>
+                <div class="sc-value">${modified}</div>
+                <div class="sc-sub">pending changes</div>
+              </div>
+              <div class="ov-stat-card ${(audit.primaryTotal - doneCount) > 0 ? 'amber' : 'green'}">
+                <div class="sc-label">Setup Progress</div>
+                <div class="sc-value">${doneCount}/${audit.primaryTotal}</div>
+                <div class="sc-sub">core setup stages done</div>
+              </div>
+              <div class="ov-stat-card ov-fc-msg-mini-card">
+                <div class="sc-label" style="margin-bottom:5px;">FC Messages</div>
+                <div class="ov-fc-msg-mini-list" id="ovFcMsgMini"><div class="ov-fc-mini-empty">No messages — connect FC</div></div>
               </div>
             </div>
-            <div class="ah-kv" style="margin-top:12px;grid-template-columns:1fr 1fr 1fr;">
-              <div class="kv"><div class="k">Roll</div><div class="v" style="font-size:14px;"><span id="ahRollVal">0.0</span><small>°</small></div></div>
-              <div class="kv"><div class="k">Pitch</div><div class="v" style="font-size:14px;"><span id="ahPitchVal">0.0</span><small>°</small></div></div>
-              <div class="kv"><div class="k">Yaw</div><div class="v" style="font-size:14px;"><span id="ahYawVal">0.0</span><small>°</small></div></div>
-            </div>
-            <div style="margin-top:8px;font-size:11px;color:var(--text3);text-align:center;">
-              ${isConn ? 'Live ATTITUDE stream from FC' : 'Connect FC for live attitude telemetry'}
-            </div>
           </div>
 
-          <!-- Col 3: Key Settings -->
-          <div class="ov-detail-card">
-            <div class="ov-section-hdr" style="margin-bottom:10px;">Key Settings</div>
-            ${kvRows}
-            <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
-              <button class="btn" style="font-size:12px;justify-content:center;" onclick="setActiveCategory('sensors')">Sensors →</button>
-              <button class="btn" style="font-size:12px;justify-content:center;" onclick="setActiveCategory('battery')">Battery →</button>
-              <button class="btn" style="font-size:12px;justify-content:center;" onclick="setActiveCategory('failsafe')">Failsafes →</button>
+          <div class="ov-section">
+            <div class="ov-section-hdr">Flight Details</div>
+            <div class="ov-detail-grid-3">
+
+              <div class="ov-detail-card" id="ovFltModeCard">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                  <div class="ov-section-hdr" style="margin-bottom:0;">Flight Modes</div>
+                  <button class="btn" style="font-size:11px;padding:4px 10px;" onclick="setActiveCategory('flightmodes')">Edit →</button>
+                </div>
+                ${fmodeChips
+                  ? `<div class="ov-fm-grid">${fmodeChips}</div>`
+                  : `<div style="color:var(--text3);font-size:12px;padding:8px 0;font-style:italic;">No flight mode data — load a .param file or connect FC</div>`}
+              </div>
+
+              <div class="ov-detail-card">
+                <div class="ov-section-hdr" style="margin-bottom:12px;">
+                  Attitude
+                  <div class="ah-pill" id="ahStatusPill" style="margin-left:auto;">OFFLINE</div>
+                </div>
+                <div style="display:flex;justify-content:center;">
+                  <div class="ah-instrument" id="ahInstrument" style="width:180px;height:180px;" title="Artificial Horizon (ATTITUDE telemetry)">
+                    <div class="ah-rot" id="ahRot">
+                      <div class="ah-pitch" id="ahPitch">
+                        <div class="ah-sky"></div>
+                        <div class="ah-ground"></div>
+                        <div class="ah-hline"></div>
+                        <div class="ah-pitchmarks">
+                          <div class="pm big" style="top:35%"></div>
+                          <div class="pm" style="top:40%"></div>
+                          <div class="pm" style="top:45%"></div>
+                          <div class="pm" style="top:55%"></div>
+                          <div class="pm" style="top:60%"></div>
+                          <div class="pm big" style="top:65%"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ah-compass">
+                      <div class="ah-compass-ring" id="ahCompassRing">
+                        <svg viewBox="0 0 200 200" aria-label="Heading ring">
+                          <defs>
+                            <linearGradient id="ahRing" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0" stop-color="rgba(255,255,255,0.18)"/>
+                              <stop offset="1" stop-color="rgba(255,255,255,0.06)"/>
+                            </linearGradient>
+                          </defs>
+                          <circle cx="100" cy="100" r="86" fill="none" stroke="url(#ahRing)" stroke-width="2"/>
+                          <g fill="rgba(255,255,255,0.55)" font-size="10" font-family="var(--font)">
+                            <text x="100" y="22" text-anchor="middle">N</text>
+                            <text x="178" y="104" text-anchor="middle">E</text>
+                            <text x="100" y="190" text-anchor="middle">S</text>
+                            <text x="22" y="104" text-anchor="middle">W</text>
+                          </g>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="ah-reticle">
+                      <div class="ah-wing"></div>
+                      <div class="ah-center"></div>
+                      <div class="ah-nose"></div>
+                    </div>
+                    <div class="ah-bezel"></div>
+                    <div class="ah-glass"></div>
+                  </div>
+                </div>
+                <div class="ah-kv" style="margin-top:12px;grid-template-columns:1fr 1fr 1fr;">
+                  <div class="kv"><div class="k">Roll</div><div class="v" style="font-size:14px;"><span id="ahRollVal">0.0</span><small>°</small></div></div>
+                  <div class="kv"><div class="k">Pitch</div><div class="v" style="font-size:14px;"><span id="ahPitchVal">0.0</span><small>°</small></div></div>
+                  <div class="kv"><div class="k">Yaw</div><div class="v" style="font-size:14px;"><span id="ahYawVal">0.0</span><small>°</small></div></div>
+                </div>
+                <div style="margin-top:8px;font-size:11px;color:var(--text3);text-align:center;">
+                  ${isConn ? 'Live ATTITUDE stream from FC' : 'Connect FC for live attitude telemetry'}
+                </div>
+              </div>
+
+              <div class="ov-detail-card">
+                <div class="ov-section-hdr" style="margin-bottom:10px;">Key Settings</div>
+                ${kvRows}
+                <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
+                  <button class="btn" style="font-size:12px;justify-content:center;" onclick="setActiveCategory('sensors')">Sensors →</button>
+                  <button class="btn" style="font-size:12px;justify-content:center;" onclick="setActiveCategory('battery')">Battery →</button>
+                  <button class="btn" style="font-size:12px;justify-content:center;" onclick="setActiveCategory('failsafe')">Failsafes →</button>
+                </div>
+              </div>
+
             </div>
           </div>
-
         </div>
-      </div>
+      ` : ''}
+
+      ${window.__ovMainTab === 'params' ? `
+        <div class="ov-tab-panel">
+          <div class="ov-section">
+            <div class="ov-section-hdr">All Parameters</div>
+            <div class="ov-param-callout">
+              Use this tab as the fast way into the raw parameter space. It keeps the overview cleaner while still making the full table and every category one click away.
+            </div>
+            <div class="ov-param-launch">
+              <button class="btn primary" onclick="setActiveCategory('all')">Open Full Parameter Table →</button>
+              <button class="btn" onclick="setActiveCategory('all');setTimeout(()=>{ const i=document.getElementById('globalSearchInput'); if(i) i.focus(); }, 60)">Search All Parameters</button>
+            </div>
+          </div>
+
+          <div class="ov-section">
+            <div class="ov-section-hdr">Categories</div>
+            <div class="ov-cat-grid-browse">${catTilesHtml}</div>
+          </div>
+        </div>
+      ` : ''}
+
+      ${window.__ovMainTab === 'setup' ? `
+        <div class="ov-tab-panel">
+          <div class="ov-section">
+            <div class="setup-hero" style="margin-bottom:14px;">
+              <div class="setup-hero-card">
+                <div class="eyebrow" style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:800;">Flight Readiness</div>
+                <div style="margin-top:6px;font-size:18px;font-weight:800;color:var(--text);">${audit.primaryComplete ? 'Configuration reads as first-flight ready' : 'Configuration still needs setup work'}</div>
+                <div style="margin-top:6px;font-size:12px;color:var(--text2);line-height:1.6;">${audit.summary}</div>
+                <div class="setup-hero-kpis">
+                  <div class="setup-hero-kpi">
+                    <div class="k">Core Progress</div>
+                    <div class="v">${audit.completedPrimary}/${audit.primaryTotal}</div>
+                    <div class="s">primary aircraft setup stages</div>
+                  </div>
+                  <div class="setup-hero-kpi">
+                    <div class="k">Pending Changes</div>
+                    <div class="v">${modified}</div>
+                    <div class="s">${modified > 0 ? 'review before write/export' : 'no staged deltas right now'}</div>
+                  </div>
+                  <div class="setup-hero-kpi">
+                    <div class="k">Recommended Next</div>
+                    <div class="v" style="font-size:12px;line-height:1.35;">${audit.nextStep.title}</div>
+                    <div class="s">${audit.nextStep.progressText}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="setup-next-card">
+                <div class="eyebrow">Next Best Action</div>
+                <div class="title">${audit.nextStep.title}</div>
+                <div class="sub">${audit.nextStep.hint}</div>
+                <div class="setup-next-actions">
+                  <button class="btn primary" onclick="setActiveCategory('agents');setTimeout(()=>openAgent('${audit.nextStep.agent}'),80);">Open Wizard</button>
+                  <button class="btn" onclick="setActiveCategory('agents')">All Wizards →</button>
+                </div>
+                <div class="setup-callout ${audit.primaryComplete ? 'good' : ''}">
+                  ${audit.primaryComplete
+                    ? 'Use Review and Changes before you write. A clean finish is as important as a guided start.'
+                    : 'This tab now keeps the decision layer and the actual setup journey together so you can see both the why and the next step in one place.'}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ov-section">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="ov-section-hdr" style="margin-bottom:0;">Setup Journey</span>
+                <span style="font-size:11px;color:var(--text3);">${doneCount}/${audit.primaryTotal} core steps complete</span>
+              </div>
+            </div>
+            <div class="setup-checklist">${checklistHtml}</div>
+            <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <button class="btn primary" style="font-size:12px;" onclick="setActiveCategory('agents')">Open All Wizards →</button>
+              <span style="font-size:11px;color:var(--text3);">Click any step to jump straight into the relevant wizard. The flow is designed to reduce page-hunting and surface safety items earlier.</span>
+            </div>
+          </div>
+        </div>
+      ` : ''}
 
     </div>
   `;
@@ -12108,7 +13082,11 @@ function renderOsdConfigWizard(area) {
 
 </script>
 
-<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js'));}</script>
+<script>
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
+}
+</script>
 
 </body>
 </html>
